@@ -234,6 +234,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('bottomBar/setActive', 'account')
+    this.$store.dispatch('config/getConfig')
   },
   methods: {
     validateUserInfos() {

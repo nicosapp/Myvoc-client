@@ -26,6 +26,7 @@ export default {
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     '~/plugins/axiosRedirection',
+    '~/plugins/filters',
     '~/plugins/notifier',
     '~/plugins/dialog',
     '~/plugins/alert',

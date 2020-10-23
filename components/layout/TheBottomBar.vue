@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-bottom-navigation
-      v-if="verified"
+      v-if="visible"
       v-model="active"
       grow
       app
@@ -19,7 +19,7 @@
         <v-icon>mdi-playlist-edit</v-icon>
       </v-btn>
 
-      <v-btn value="create" @click="createSnippet">
+      <v-btn value="create" @click="createWord">
         <div>Create</div>
         <v-icon>mdi-plus-circle-outline</v-icon>
       </v-btn>
@@ -51,8 +51,13 @@ export default {
     ...mapGetters({
       activeValue: 'bottomBar/active',
     }),
-    verified() {
-      return this.$auth.loggedIn && this.$auth.user.is_verified
+    isEditPage() {
+      return this.$route.path.indexOf('edit') > 0
+    },
+    visible() {
+      return (
+        this.$auth.loggedIn && this.$auth.user.is_verified && !this.isEditPage
+      )
     },
     active: {
       get() {
@@ -76,13 +81,13 @@ export default {
       })
     },
 
-    async createSnippet() {
+    async createWord() {
       try {
-        const snippet = await this.$axios.$post('snippets')
+        const word = await this.$axios.$post('words')
         this.setActive('create')
         this.$router.push({
-          name: 'snippets-id-edit',
-          params: { id: snippet.data.uuid },
+          name: 'words-id-edit',
+          params: { id: word.data.id },
         })
       } catch (e) {}
     },
