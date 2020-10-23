@@ -4,7 +4,7 @@
   >
     <div
       class="flex items-center"
-      :class="{'mb-2':category.children.length}"
+      :class="{ 'mb-2': category.children.length }"
     >
       <IconMenu
         class="stroke-current text-gray-500 stroke-2 mr-2 cursor-pointer handle"
@@ -18,15 +18,12 @@
           v-model="category.name"
           type="text"
           class="border-gray-400 border bg-white rounded w-full px-3 py-1 outline-none"
-        >
+        />
         <div v-else class="px-3 py-1 border border-transparent">
           {{ category.name }}
         </div>
       </div>
-      <div
-        class="ml-2"
-        @click="_edit(category)"
-      >
+      <div class="ml-2" @click="_edit(category)">
         <IconPencilAlt
           v-show="!edit"
           class="stroke-current text-gray-500 stroke-2 h-6 w-6 mr-2 cursor-pointer"
@@ -54,43 +51,43 @@ export default {
   props: {
     category: {
       required: true,
-      type: Object
+      type: Object,
     },
     click: {
       required: false,
       type: Function,
-      default: null
+      default: null,
     },
     remove: {
       required: false,
       type: Function,
-      default: null
-    }
+      default: null,
+    },
   },
-  data () {
+  data() {
     return {
-      edit: false
+      edit: false,
     }
   },
   watch: {
     'category.name': {
       handler: _debounce(async function (name) {
         await this.$axios.$patch(`me/categories/${this.category.id}`, {
-          name
+          name,
         })
-      }, 500)
-    }
+      }, 500),
+    },
   },
   methods: {
-    _remove (category) {
+    _remove(category) {
       this.remove(category)
     },
-    _click (category) {
+    _click(category) {
       this.click(category)
     },
-    _edit (category) {
+    _edit(category) {
       this.edit = !this.edit
-    }
-  }
+    },
+  },
 }
 </script>

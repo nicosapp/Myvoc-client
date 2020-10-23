@@ -20,8 +20,14 @@
           class="rounded-full bg-bg-light text-text-primary h-6 w-6 flex items-center justify-center cursor-pointer"
           @click.prevent="open = !open"
         >
-          <IconChevronLeft class="h-4 w-4 stroke-3 stroke-current" :class="{'hidden':open}" />
-          <IconChevronDown class="h-4 w-4 stroke-3 stroke-current" :class="{'hidden':!open}" />
+          <IconChevronLeft
+            class="h-4 w-4 stroke-3 stroke-current"
+            :class="{ hidden: open }"
+          />
+          <IconChevronDown
+            class="h-4 w-4 stroke-3 stroke-current"
+            :class="{ hidden: !open }"
+          />
         </div>
       </div>
       <transition name="slide">
@@ -53,56 +59,59 @@ export default {
   props: {
     category: {
       required: true,
-      type: Object
+      type: Object,
     },
     depth: {
       required: false,
       type: Number,
-      default: 0
+      default: 0,
     },
     last: {
       required: false,
       type: Boolean,
-      default: false
+      default: false,
     },
     click: {
       required: false,
       type: Function,
-      default: null
+      default: null,
     },
     loading: {
       required: false,
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
-  data () {
+  data() {
     return {
       checked: false,
-      open: false
+      open: false,
     }
   },
   computed: {
-    marginLeft () {
+    marginLeft() {
       return `ml-${4 * this.depth}`
-    }
+    },
   },
   watch: {
-    checked () {
+    checked() {
       this.$emit('click', this.category.id, this.checked)
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style scoped>
-.slide-enter-active, .slide-leave-active {
+.slide-enter-active,
+.slide-leave-active {
   transition: all 200ms linear;
 }
-.slide-enter, .slide-leave-to{
-  max-height:0px;
+.slide-enter,
+.slide-leave-to {
+  max-height: 0;
 }
-.slide-enter-to, .slide-leave{
-  max-height:4rem;
+.slide-enter-to,
+.slide-leave {
+  max-height: 4rem;
 }
 </style>
