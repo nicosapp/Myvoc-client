@@ -1,5 +1,6 @@
 <template>
   <div>
+    <WordEditDialog v-for="(d, index) in dialogs" :key="index" :index="index" />
     <v-bottom-navigation
       v-if="visible"
       v-model="active"
@@ -50,6 +51,7 @@ export default {
   computed: {
     ...mapGetters({
       activeValue: 'bottomBar/active',
+      dialogs: 'edit/dialogs',
     }),
     isEditPage() {
       return this.$route.path.indexOf('edit') > 0
@@ -72,6 +74,8 @@ export default {
   methods: {
     ...mapActions({
       setActive: 'bottomBar/setActive',
+      pushDialog: 'edit/pushDialog',
+      removeDialog: 'edit/removeDialog',
     }),
 
     pushRoute(active, route) {
@@ -81,15 +85,16 @@ export default {
       })
     },
 
-    async createWord() {
-      try {
-        const word = await this.$axios.$post('words')
-        this.setActive('create')
-        this.$router.push({
-          name: 'words-id-edit',
-          params: { id: word.data.id },
-        })
-      } catch (e) {}
+    createWord() {
+      this.pushDialog({ visible: true, word: {} })
+      // try {
+      //   const word = await this.$axios.$post('words')
+      //   this.setActive('create')
+      //   this.$router.push({
+      //     name: 'words-id-edit',
+      //     params: { id: word.data.id },
+      //   })
+      // } catch (e) {}
     },
   },
 }

@@ -122,7 +122,7 @@ export default {
       try {
         await this.$axios.$post('auth/signup', this.form)
         this.$router.push({
-          name: 'account',
+          name: 'auth-signin',
         })
       } catch (e) {
         if (e.response.status === 422) {

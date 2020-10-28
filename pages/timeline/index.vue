@@ -1,52 +1,69 @@
 <template>
-  <v-container>
-    <v-btn @click.prevent="show = !show">SHOW</v-btn>
-    <v-expand-x-transition>
-      <div
-        v-if="show"
-        class="teal"
-        style="right: 0; position: absolute; width: 100%"
-      >
-        Test
+  <v-row class="pt-0">
+    <v-col cols="12" class="pt-0">
+      <!-- {{ filterType }} {{ filterOrderBy }} {{ filterTaxonomy }}
+        {{ filterDictionnary }} {{ filterDisplay }} {{ filterComponent }}
+        {{ filterCrossDico }} {{ filterVisible }}
+        <div>
+          {{ filterCategory }}
+          {{ filterGrammar }}
+          {{ filterLevel }}
+          {{ filterRating }}
+          {{ filterHighlight }}
+          {{ filterTag }}
+          {{ filterDate }}
+        </div> -->
+      <v-pagination
+        v-if="lastPage > 1"
+        v-model="currentPage"
+        class="my-4"
+        :length="lastPage"
+      ></v-pagination>
+      <div class="font-medium">
+        <template v-if="total"> Words found ({{ total }}) </template>
+        <template v-else>
+          Sorry, we did not find any words for this request
+        </template>
       </div>
-    </v-expand-x-transition>
-    <div>
-      <WordListItem v-for="word in words" :key="word.id" :word="word" />
-    </div>
-  </v-container>
+      <div :style="`column-count: ${filterColumn}`">
+        <WordListItem
+          v-for="(word, index) in words"
+          :key="word.id"
+          :word="word"
+          :index="index + 1"
+        />
+      </div>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
+import timelineHelper from '@/mixins/timeline'
 import WordListItem from './components/WordListItem'
+// import CategoryContainer from './components/select/category/CategoryContainer'
+
 export default {
   components: {
     WordListItem,
   },
+  mixins: [timelineHelper],
   middleware: ['verified'],
   layout: 'timeline',
-  async asyncData({ app }) {
-    const response = await app.$axios.$get('words')
 
-    return {
-      words: response.data,
-    }
-  },
   data() {
     return {
-      show: false,
-      words: [],
+      page: 1,
     }
   },
+  watch: {
+    currentPage(newValue) {
+      this.currentPage = newValue
+      this.getWords()
+    },
+  },
+
   mounted() {
     this.$store.dispatch('bottomBar/setActive', 'timeline')
-  },
-  methods: {
-    toast() {
-      // this.$notifier.success({ message: 'Test' })
-      // this.$notifier.warn({ message: 'Test' })
-      // this.$notifier.error({ message: 'Test' })
-      // this.$notifier.info({ message: 'Test' })
-    },
   },
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar :clipped-left="false" fixed app color="primary">
+  <v-app-bar :clipped-left="false" fixed app color="gray lighten-4">
     <!-- MIDDLE -->
     <v-spacer />
     <v-img
