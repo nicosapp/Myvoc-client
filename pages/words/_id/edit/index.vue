@@ -46,9 +46,9 @@
 </template>
 
 <script>
-import EditorAttributes from './components/EditorAttributes'
-import EditorTranslation from './components/EditorTranslation'
-import EditorPreview from './components/EditorPreview'
+import EditorAttributes from '@/components/dialog/components/EditorAttributes'
+import EditorTranslation from '@/components/dialog/components/EditorTranslation'
+import EditorPreview from '@/components/dialog/components/EditorPreview'
 export default {
   components: {
     EditorAttributes,

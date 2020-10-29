@@ -2,11 +2,10 @@
   <v-slide-item>
     <v-chip
       light
-      class="mr-2"
+      class="mr-2 elevation-1 my-1"
       ripple
-      color="primary"
-      :outlined="isOutlined"
-      @click="click"
+      :color="color"
+      @click.prevent="click"
     >
       <slot />
     </v-chip>
@@ -30,7 +29,7 @@ export default {
 
   computed: {
     color() {
-      return this.value ? 'white' : 'white'
+      return this.isOutlined ? null : 'primary'
     },
     isOutlined() {
       if (this.value !== null) return !this.value

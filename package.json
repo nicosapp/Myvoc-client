@@ -23,6 +23,7 @@
     "moment": "^2.29.1",
     "nuxt": "^2.14.5",
     "query-string": "^6.13.5",
+    "vue-markdown": "^2.2.4",
     "vuedraggable": "^2.24.2"
   },
   "devDependencies": {

@@ -1,17 +1,24 @@
 <template>
-  <div>
-    <v-menu v-model="showMenu" left offset-y close-on-click :max-height="200">
-      <template v-slot:activator>
+  <div class="relative">
+    <v-menu left offset-y close-on-click :max-height="200">
+      <template v-slot:activator="{ on, attrs }">
         <v-text-field
           v-model="search"
           hide-details
           filled
+          v-bind="attrs"
           label="Word"
-        ></v-text-field>
+          v-on="on"
+          @input="(v) => $emit('input', v)"
+        >
+        </v-text-field>
       </template>
-
-      <v-list>
-        <v-list-item v-for="(item, index) in items" :key="index">
+      <v-list v-if="items.length">
+        <v-list-item
+          v-for="(item, index) in items"
+          :key="index"
+          @click.prevent="edit(item)"
+        >
           <v-list-item-content>
             <v-list-item-title>
               {{ item | fullWord }}
@@ -29,14 +36,16 @@
 </template>
 
 <script>
+import editHelper from '@/mixins/edit'
 import { debounce as _debounce } from 'lodash'
 import queryString from 'query-string'
 export default {
+  mixins: [editHelper],
   props: {
     value: {
       required: false,
-      default: () => {},
-      type: Object,
+      default: '',
+      type: String,
     },
     required: {
       required: false,
@@ -57,7 +66,7 @@ export default {
   data() {
     return {
       model: null,
-      search: null,
+      search: this.value,
       showMenu: false,
       items: [],
       isLoading: false,
@@ -84,9 +93,6 @@ export default {
   },
   methods: {
     async apiQuery(value, self) {
-      // if (self.isLoading) return
-      // self.isLoading = true
-      console.log(value)
       const query = {}
       query.search = value
       const response = await self.$axios.$get(
@@ -97,14 +103,11 @@ export default {
         self.items = [...response.data]
         if (response.length) self.showMenu = true
       }
-      // self.isLoading = false
     },
-    // input(item) {
-    //   if (item) {
-    //     this.currentWord.lang = item.lang
-    //     this.model = this.currentWord
-    //   }
-    // },
+
+    edit(item) {
+      this.pushDialog({ id: item.id, edit: true })
+    },
     // blur() {
     //   if (this.search) {
     //     this.currentWord.lang = this.search

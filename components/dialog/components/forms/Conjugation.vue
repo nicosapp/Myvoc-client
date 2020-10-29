@@ -7,6 +7,8 @@
       filled
       label="Conjugation"
       auto-grow
+      hide-details
+      style="line-height: 1.25rem"
     ></v-textarea>
   </v-card>
 </template>

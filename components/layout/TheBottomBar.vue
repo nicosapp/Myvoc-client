@@ -75,7 +75,6 @@ export default {
     ...mapActions({
       setActive: 'bottomBar/setActive',
       pushDialog: 'edit/pushDialog',
-      removeDialog: 'edit/removeDialog',
     }),
 
     pushRoute(active, route) {
@@ -85,16 +84,16 @@ export default {
       })
     },
 
-    createWord() {
-      this.pushDialog({ visible: true, word: {} })
-      // try {
-      //   const word = await this.$axios.$post('words')
-      //   this.setActive('create')
-      //   this.$router.push({
-      //     name: 'words-id-edit',
-      //     params: { id: word.data.id },
-      //   })
-      // } catch (e) {}
+    async createWord() {
+      try {
+        const word = await this.$axios.$post('words')
+        this.setActive('create')
+        this.pushDialog({ id: word.data.id, edit: false })
+        // this.$router.push({
+        //   name: 'words-id-edit',
+        //   params: { id: word.data.id },
+        // })
+      } catch (e) {}
     },
   },
 }

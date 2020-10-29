@@ -5,23 +5,53 @@
     :hide-overlay="index > 0"
     persistent
     :fullscreen="$vuetify.breakpoint.mobile"
-    transition="dialog-bottom-transition"
   >
     <v-card>
       <v-toolbar dark color="primary"
-        ><v-btn icon dark @click.prevent="remove">
+        ><v-btn icon dark :disabled="isEmpty" @click.prevent="close">
           <v-icon>mdi-close</v-icon>
         </v-btn>
-        <v-toolbar-title>Edit/Add Word</v-toolbar-title>
+        <v-toolbar-title>Word</v-toolbar-title>
         <v-spacer></v-spacer>
-
-        <v-btn dark text @click="save"> Save </v-btn>
+        <DeleteWordButton :word="word" @deleted="close">
+          Delete
+        </DeleteWordButton>
+        <UpdateWordButton :word="word"> Save </UpdateWordButton>
       </v-toolbar>
+      <div
+        v-if="!word"
+        class="d-flex justify-center align-center"
+        style="height: 300px"
+      >
+        <v-progress-circular
+          :size="50"
+          color="primary"
+          indeterminate
+        ></v-progress-circular>
+      </div>
+      <v-tabs v-else v-model="tab">
+        <v-tabs-slider></v-tabs-slider>
 
-      <v-card-title class="headline"> Test {{ index }}</v-card-title>
-      <v-card-text>Un message</v-card-text>
+        <v-tab href="#attributes"> Attributes </v-tab>
+        <v-tab href="#translation" :disabled="!isNative"> Translation </v-tab>
+        <v-tab href="#preview"> Preview </v-tab>
+
+        <v-tabs-items v-model="tab" class="mt-2">
+          <v-tab-item value="attributes">
+            <EditorAttributes v-model="word" :edit="edit" />
+          </v-tab-item>
+          <v-tab-item value="translation">
+            <EditorTranslation v-model="word" />
+          </v-tab-item>
+          <v-tab-item value="preview">
+            <EditorPreview :word="word" />
+          </v-tab-item>
+        </v-tabs-items>
+      </v-tabs>
+
+      <v-divider></v-divider>
+
       <v-card-actions>
-        <v-btn color="error" text>Delete</v-btn>
         <v-spacer></v-spacer>
         <v-btn text color="primary" @click.prevent="add">New</v-btn>
       </v-card-actions>
@@ -30,46 +60,60 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import editHelper from '@/mixins/edit'
+
+import { isEmpty as _isEmpty, get as _get } from 'lodash'
 
 export default {
+  mixins: [editHelper],
   props: {
     index: {
       type: Number,
       required: true,
     },
   },
+  data() {
+    return {
+      tab: 'attributes',
+      visible: true,
+      word: null,
+    }
+  },
   computed: {
-    ...mapGetters({
-      dialogs: 'edit/dialogs',
-    }),
     dialog() {
       return this.dialogs[this.index]
     },
-    visible: {
-      get() {
-        return this.dialog.visible
-      },
-      set(visible) {
-        const dialog = { ...this.dialog, ...{ visible, index: this.index } }
-        this.updateDialog(dialog)
-      },
+    edit() {
+      return this.dialog.edit
+    },
+    wordId() {
+      return this.dialog.id
+    },
+    isNative() {
+      return this.word.langue === this.$auth.user.native
+    },
+    isEmpty() {
+      return _isEmpty(_get(this, 'word.lang', null))
     },
   },
+  async mounted() {
+    try {
+      const response = await this.$axios.$get(`words/${this.wordId}`)
+      this.word = response.data
+    } catch (e) {
+      this.$notifier.error500()
+    }
+  },
   methods: {
-    ...mapActions({
-      pushDialog: 'edit/pushDialog',
-      removeDialog: 'edit/removeDialog',
-      updateDialog: 'edit/updateDialog',
-    }),
-
-    add() {
-      this.pushDialog({ visible: true })
+    async add() {
+      try {
+        const word = await this.$axios.$post('words')
+        this.pushDialog({ id: word.data.id, edit: false })
+      } catch (e) {}
     },
-    remove() {
+    close() {
       this.removeDialog(this.index)
     },
-    save() {},
   },
 }
 </script>

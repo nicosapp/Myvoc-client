@@ -136,6 +136,7 @@ export default {
         light: {
           primary: '#03A678',
           primaryText: '#ffffff',
+          secondary: colors.grey.darken1,
         },
       },
     },

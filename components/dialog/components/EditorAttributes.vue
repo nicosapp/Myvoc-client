@@ -5,7 +5,7 @@
       <v-card class="px-4 mb-4 elevation-8">
         <v-row>
           <v-col cols="6">
-            <Language v-model="currentWord.langue" />
+            <Language v-model="currentWord.langue" :disabled="edit" />
           </v-col>
           <v-col cols="6">
             <Type v-model="currentWord.forme" />
@@ -21,14 +21,14 @@
 import Language from './forms/Language'
 import Type from './forms/Type'
 
-import TypeWord from './types/TypeWord'
-import TypeLocution from './types/TypeLocution'
-import TypeQuote from './types/TypeQuote'
-import TypeAcronym from './types/TypeAcronym'
-import TypeExpression from './types/TypeExpression'
-import TypeGrammar from './types/TypeGrammar'
-import TypeNote from './types/TypeNote'
-import TypeExample from './types/TypeExample'
+import TypeWord from './forms/types/TypeWord'
+import TypeLocution from './forms/types/TypeLocution'
+import TypeQuote from './forms/types/TypeQuote'
+import TypeAcronym from './forms/types/TypeAcronym'
+import TypeExpression from './forms/types/TypeExpression'
+import TypeGrammar from './forms/types/TypeGrammar'
+import TypeNote from './forms/types/TypeNote'
+import TypeExample from './forms/types/TypeExample'
 
 export default {
   components: {
@@ -48,6 +48,11 @@ export default {
     value: {
       required: true,
       type: Object,
+    },
+    edit: {
+      required: false,
+      type: Boolean,
+      default: true,
     },
   },
   data() {

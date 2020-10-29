@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-row class="mb-4">
     <v-col cols="4">
       <Level v-model="currentWord.level" />
     </v-col>

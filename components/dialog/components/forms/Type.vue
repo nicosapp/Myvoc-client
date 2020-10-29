@@ -4,6 +4,7 @@
     :items="items"
     label="Forme"
     filled
+    hide-details
     @change="$emit('change', selected)"
   >
     <template v-slot:selection="data">

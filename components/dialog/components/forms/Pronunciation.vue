@@ -1,6 +1,7 @@
 <template>
   <v-text-field
     v-model="currentValue"
+    hide-details
     label="Pronunciation"
     filled
   ></v-text-field>

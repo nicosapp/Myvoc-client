@@ -22,13 +22,14 @@
       >
         <v-icon medium>mdi-delete</v-icon>
       </v-btn>
-      <div class="d-flex">
+      <div class="d-flex mb-2">
         <v-text-field
           v-model="definition.order"
           type="number"
           label="Order"
           filled
-          class="mr-3 order shrink"
+          class="mr-2 order shrink"
+          hide-details
         ></v-text-field>
         <v-textarea
           v-model="definition.definition"
@@ -38,6 +39,7 @@
           clearable
           label="Definition"
           rows="3"
+          hide-details
         ></v-textarea>
       </div>
       <div v-if="index === definitions.length - 1" class="text-center">

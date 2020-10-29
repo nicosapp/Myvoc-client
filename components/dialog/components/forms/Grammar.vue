@@ -1,26 +1,4 @@
 <template>
-  <!-- <v-autocomplete
-    v-model="values"
-    :items="items"
-    filled
-    chips
-    small-chips
-    label="Grammar"
-    multiple
-    clearable
-  >
-    <template v-slot:selection="data">
-      <v-chip
-        v-bind="data.attrs"
-        :input-value="data.selected"
-        close
-        @click="data.select"
-        @click:close="remove(data.item)"
-      >
-        {{ data.item || capitalize }}
-      </v-chip>
-    </template>
-  </v-autocomplete> -->
   <v-combobox
     v-model="model"
     :items="items"

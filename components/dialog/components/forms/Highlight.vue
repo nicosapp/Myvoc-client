@@ -4,6 +4,7 @@
     type="number"
     label="Highlight"
     filled
+    hide-details
   ></v-text-field>
 </template>
 

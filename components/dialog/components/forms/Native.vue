@@ -1,5 +1,10 @@
 <template>
-  <v-text-field v-model="currentValue" label="Native" filled></v-text-field>
+  <v-text-field
+    v-model="currentValue"
+    label="Native"
+    filled
+    hide-details
+  ></v-text-field>
 </template>
 
 <script>

@@ -4,6 +4,7 @@
     type="number"
     label="Rating"
     filled
+    hide-details
   ></v-text-field>
 </template>
 

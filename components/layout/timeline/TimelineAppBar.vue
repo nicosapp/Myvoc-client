@@ -12,7 +12,7 @@
         <!-- <v-btn icon @click.prevent="toggleDrawerLeft">
           <v-icon>mdi-menu</v-icon>
         </v-btn> -->
-        <v-btn icon width="24" color="primary" @click.prevent="toggleFilterBar">
+        <v-btn light icon class="ml-n2" @click.prevent="toggleFilterBar">
           <v-icon>mdi-tune-vertical</v-icon>
         </v-btn>
         <!-- MIDDLE -->
@@ -28,7 +28,7 @@
         <!-- MIDDLE -->
         <v-btn
           v-if="!$auth.loggedIn && isHomePage"
-          color="primaryText"
+          light
           icon
           nuxt
           to="/auth/signin"
@@ -37,8 +37,8 @@
         </v-btn>
         <v-btn
           icon
-          width="24"
-          color="primary"
+          class="mr-n2"
+          light
           @click.prevent="$emit('toggle-appbar', true)"
         >
           <v-icon>mdi-magnify</v-icon>
@@ -47,20 +47,14 @@
       <slot />
 
       <template v-slot:extension>
-        <div style="width: 100%">
+        <div v-if="extensionHeight > 50" style="width: 100%">
           <div
             class="d-flex align-center"
             :style="`height:${extensionBarHeight}px;`"
             style="overflow: hidden"
           >
-            <v-btn
-              width="24"
-              color="primary"
-              class="mr-4"
-              icon
-              @click.prevent="filter"
-            >
-              <v-icon>mdi-crosshairs</v-icon>
+            <v-btn light class="ml-n2" icon @click.prevent="filter">
+              <v-icon>mdi-filter</v-icon>
             </v-btn>
             <v-slide-group
               light
@@ -95,8 +89,7 @@
           </div>
 
           <div
-            v-if="extensionHeight > 50"
-            class="d-flex align-center flex-row col-12"
+            class="d-flex align-center"
             :style="`height:${extensionBarHeight}px;`"
             style="overflow: hidden"
           >
@@ -119,25 +112,25 @@
                 Grammar
               </FilterChip>
 
-              ><FilterChip
+              <FilterChip
                 :outlined="isEmpty(filterRating)"
                 @click="openDialog('FilterRating')"
                 >Rating
               </FilterChip>
 
-              ><FilterChip
+              <FilterChip
                 :outlined="isEmpty(filterHighlight)"
                 @click="openDialog('FilterHighlight')"
                 >Highlight
               </FilterChip>
 
-              ><FilterChip
+              <FilterChip
                 :outlined="isEmpty(filterLevel)"
                 @click="openDialog('FilterLevel')"
                 >Level
               </FilterChip>
 
-              ><FilterChip
+              <FilterChip
                 :outlined="isEmpty(filterDate)"
                 @click="openDialog('FilterDate')"
                 >Date
@@ -177,7 +170,7 @@ export default {
   data() {
     return {
       extensionBarHeight: 48,
-      extensionHeight: 48,
+      extensionHeight: 0,
       categories: null,
     }
   },
@@ -194,9 +187,7 @@ export default {
     },
     toggleFilterBar() {
       this.extensionHeight =
-        this.extensionHeight > 50
-          ? this.extensionHeight / 2
-          : this.extensionHeight * 2
+        this.extensionHeight > 50 ? 0 : this.extensionBarHeight * 2
     },
     setCrossDico() {
       this.filterCrossDico =

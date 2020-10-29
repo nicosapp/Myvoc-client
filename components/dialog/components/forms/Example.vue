@@ -22,13 +22,13 @@
       >
         <v-icon medium>mdi-delete</v-icon>
       </v-btn>
-      <div class="d-flex">
+      <div class="d-flex mb-2">
         <v-text-field
           v-model="example.order"
           type="number"
           label="Order"
           filled
-          class="mr-3 order shrink"
+          class="mr-2 order shrink"
         ></v-text-field>
         <v-textarea
           v-model="example.example"
@@ -37,6 +37,7 @@
           clearable
           label="Example"
           rows="3"
+          hide-details
         ></v-textarea>
       </div>
       <v-textarea
@@ -47,6 +48,8 @@
         label="Translation"
         rows="3"
         full-width
+        hide-details
+        class="mb-2"
       ></v-textarea>
       <div v-if="index === examples.length - 1" class="text-center">
         <v-btn color="primary" small @click.prevent="add"

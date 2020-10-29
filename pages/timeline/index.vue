@@ -1,7 +1,6 @@
 <template>
-  <v-row class="pt-0">
-    <v-col cols="12" class="pt-0">
-      <!-- {{ filterType }} {{ filterOrderBy }} {{ filterTaxonomy }}
+  <div>
+    <!-- {{ filterType }} {{ filterOrderBy }} {{ filterTaxonomy }}
         {{ filterDictionnary }} {{ filterDisplay }} {{ filterComponent }}
         {{ filterCrossDico }} {{ filterVisible }}
         <div>
@@ -13,28 +12,27 @@
           {{ filterTag }}
           {{ filterDate }}
         </div> -->
-      <v-pagination
-        v-if="lastPage > 1"
-        v-model="currentPage"
-        class="my-4"
-        :length="lastPage"
-      ></v-pagination>
-      <div class="font-medium">
-        <template v-if="total"> Words found ({{ total }}) </template>
-        <template v-else>
-          Sorry, we did not find any words for this request
-        </template>
-      </div>
-      <div :style="`column-count: ${filterColumn}`">
-        <WordListItem
-          v-for="(word, index) in words"
-          :key="word.id"
-          :word="word"
-          :index="index + 1"
-        />
-      </div>
-    </v-col>
-  </v-row>
+    <v-pagination
+      v-if="lastPage > 1"
+      v-model="currentPage"
+      class="my-4"
+      :length="lastPage"
+    ></v-pagination>
+    <div class="font-medium">
+      <template v-if="total"> Words found ({{ total }}) </template>
+      <template v-else>
+        Sorry, we did not find any words for this request
+      </template>
+    </div>
+    <div :style="`column-count: ${filterColumn}`" style="column-gap: 0">
+      <WordListItem
+        v-for="(word, index) in words"
+        :key="word.id"
+        :word="word"
+        :index="index + 1"
+      />
+    </div>
+  </div>
 </template>
 
 <script>

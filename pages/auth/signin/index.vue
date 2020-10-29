@@ -43,7 +43,7 @@
             <v-btn
               block
               type="submit"
-              :disabled="!valid"
+              :disabled="disabled"
               color="primary"
               height="3rem"
               @click="validate"
@@ -77,6 +77,7 @@ export default {
       password: '',
       show: false,
       validation: {},
+      loading: false,
       rules: {
         required: (value) => !!value || 'Required.',
         emailValid: (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
@@ -91,6 +92,9 @@ export default {
     isError() {
       return Object.keys(this.validation).length
     },
+    disabled() {
+      return !this.valid || this.loading
+    },
   },
   mounted() {
     if (this.$route.query.error) {
@@ -102,6 +106,7 @@ export default {
       this.$refs.form.validate()
     },
     async signin() {
+      this.loading = true
       try {
         await this.$axios.$get(`${process.env.appUrl}/sanctum/csrf-cookie`)
         await this.$auth.loginWith('local', { data: this.form })
@@ -111,10 +116,11 @@ export default {
         if (e.response && e.response.status === 422) {
           this.validation = e.response.data.errors
           this.$notifier.error({ message: 'There is an error in the form' })
-          return
+        } else {
+          this.$notifier.error500()
         }
-        this.$notifier.error500()
       }
+      this.loading = false
     },
   },
   head() {

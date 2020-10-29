@@ -9,7 +9,7 @@
       ></v-text-field>
     </v-col>
     <v-col cols="8">
-      <Lang v-model="currentWord" />
+      <Lang v-model="currentWord.lang" />
     </v-col>
     <v-col>
       <v-text-field

@@ -3,9 +3,11 @@
     v-model="selected"
     :items="items"
     label="Langue"
+    hide-details
     filled
     item-text="value"
     item-value="key"
+    :disabled="disabled"
   ></v-select>
 </template>
 
@@ -17,6 +19,11 @@ export default {
       required: false,
       default: 'fra',
       type: String,
+    },
+    disabled: {
+      required: false,
+      default: true,
+      type: Boolean,
     },
   },
 

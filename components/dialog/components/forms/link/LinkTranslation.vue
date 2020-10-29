@@ -11,6 +11,8 @@
     clearable
     return-object
     hide-no-data
+    hide-details
+    :menu-props="menuConfig"
   >
     <template v-slot:selection="data">
       <v-chip
@@ -87,6 +89,11 @@ export default {
       search: null,
       isLoading: false,
     }
+  },
+  computed: {
+    menuConfig() {
+      return { bottom: true, maxHeight: 200 }
+    },
   },
   watch: {
     model(newValue, oldValue) {
