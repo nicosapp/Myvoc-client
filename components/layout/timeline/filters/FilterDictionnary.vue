@@ -1,16 +1,18 @@
 <template>
   <v-dialog v-model="filterVisible" width="200">
     <v-card>
-      <v-list nav dense>
+      <LoadingCircular v-if="!items" height="150px" />
+      <v-list v-else dense nav>
         <v-list-item-group v-model="model" color="primary">
           <v-list-item
-            v-for="dictionnary in dictionnaries"
-            :key="dictionnary.key"
+            v-for="dictionnary in items"
+            :key="dictionnary.slug"
+            class="text-capitalize"
             ripple
-            :value="dictionnary.key"
+            :value="dictionnary.slug"
             @click.prevent="filterVisible = false"
           >
-            {{ dictionnary.value | capitalize }}
+            {{ dictionnary.name }}
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -30,7 +32,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      dictionnaries: 'config/dictionnaries',
+      items: 'config/dictionnaries',
     }),
   },
   watch: {
@@ -39,7 +41,7 @@ export default {
     },
   },
   mounted() {
-    if (!this.dictionnaries) this.$store.dispatch('config/getDictionnaries')
+    if (!this.items) this.$store.dispatch('config/getDictionnaries')
     this.model = this.filterDictionnary
   },
 }

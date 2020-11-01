@@ -5,8 +5,8 @@ export default {
       filterComponent: 'timeline/component',
       filterDictionnary: 'timeline/dictionnary',
       filterType: 'timeline/type',
-      filterTaxonomy: 'timeline/taxonomy',
       filterOrderBy: 'timeline/orderBy',
+      filterTranslation: 'timeline/translation',
       filterDisplay: 'timeline/display',
       filterColumn: 'timeline/column',
       visibleValue: 'timeline/visible',
@@ -20,10 +20,12 @@ export default {
       filterDate: 'timeline/date',
       filterTag: 'timeline/tag',
 
-      words: 'timeline/words',
+      terms: 'timeline/terms',
       currentPageValue: 'timeline/currentPage',
       lastPage: 'timeline/lastPage',
       total: 'timeline/total',
+      pagination: 'timeline/pagination',
+      loading: 'timeline/loading',
     }),
     filterVisible: {
       get() {
@@ -56,8 +58,9 @@ export default {
       setVisible: 'timeline/setVisible',
       showFilterDialog: 'timeline/showFilterDialog',
       setTimeline: 'timeline/setTimeline',
+      setPagination: 'timeline/setPagination',
       setFilters: 'timeline/setFilters',
-      getWords: 'timeline/getWords',
+      getTerms: 'timeline/getTerms',
     }),
   },
 }

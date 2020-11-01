@@ -29,14 +29,14 @@ export default {
     VueMarkdown,
   },
   props: {
-    word: {
+    term: {
       required: true,
       type: Object,
     },
   },
   computed: {
     items() {
-      return _orderBy(this.word.def_json, 'order', 'asc') || []
+      return _orderBy(this.term.def_json, 'order', 'asc') || []
     },
     extensions() {
       return ['source']

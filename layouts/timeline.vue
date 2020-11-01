@@ -1,11 +1,11 @@
 <template>
   <v-app dark>
     <v-fade-transition>
-      <TimelineAppBar v-if="true" @toggle-appbar="(v) => (searchVisible = v)">
+      <TimelineAppBar @toggle-appbar="(v) => (searchBarVisible = v)">
         <v-expand-x-transition>
           <TimelineSearchAppBar
-            v-if="searchVisible"
-            @toggle-appbar="(v) => (searchVisible = v)"
+            v-if="searchBarVisible"
+            @toggle-appbar="(v) => (searchBarVisible = v)"
           />
         </v-expand-x-transition>
       </TimelineAppBar>
@@ -13,7 +13,19 @@
 
     <TimelineDrawerLeft />
     <v-main>
-      <v-container>
+      <v-btn
+        v-if="!disabledPagination"
+        style="bottom: 68px"
+        fab
+        small
+        :color="pagination ? 'primary' : null"
+        fixed
+        right
+        @click.prevent="togglePagination"
+      >
+        <v-icon> mdi-book-open-page-variant </v-icon>
+      </v-btn>
+      <v-container class="pa-0">
         <TheAlert />
         <nuxt />
       </v-container>
@@ -24,11 +36,25 @@
 </template>
 
 <script>
+import timelineHelper from '@/mixins/timeline'
+
 export default {
+  mixins: [timelineHelper],
   data() {
     return {
-      searchVisible: false,
+      searchBarVisible: false,
     }
+  },
+  computed: {
+    disabledPagination() {
+      return this.lastPage <= 1
+    },
+  },
+
+  methods: {
+    togglePagination() {
+      this.setPagination(!this.pagination)
+    },
   },
 }
 </script>

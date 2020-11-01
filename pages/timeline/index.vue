@@ -12,23 +12,17 @@
           {{ filterTag }}
           {{ filterDate }}
         </div> -->
-    <v-pagination
-      v-if="lastPage > 1"
-      v-model="currentPage"
-      class="my-4"
-      :length="lastPage"
-    ></v-pagination>
-    <div class="font-medium">
-      <template v-if="total"> Words found ({{ total }}) </template>
+    <div class="text-subtitle-2 grey lighten-3 pa-3">
+      <template v-if="total"> Terms found ({{ total }}) </template>
       <template v-else>
-        Sorry, we did not find any words for this request
+        Sorry, we did not find any terms for this request
       </template>
     </div>
     <div :style="`column-count: ${filterColumn}`" style="column-gap: 0">
-      <WordListItem
-        v-for="(word, index) in words"
-        :key="word.id"
-        :word="word"
+      <TermListItem
+        v-for="(term, index) in terms"
+        :key="term.id"
+        :term="term"
         :index="index + 1"
       />
     </div>
@@ -37,12 +31,11 @@
 
 <script>
 import timelineHelper from '@/mixins/timeline'
-import WordListItem from './components/WordListItem'
-// import CategoryContainer from './components/select/category/CategoryContainer'
+import TermListItem from './components/TermListItem'
 
 export default {
   components: {
-    WordListItem,
+    TermListItem,
   },
   mixins: [timelineHelper],
   middleware: ['verified'],
@@ -52,12 +45,6 @@ export default {
     return {
       page: 1,
     }
-  },
-  watch: {
-    currentPage(newValue) {
-      this.currentPage = newValue
-      this.getWords()
-    },
   },
 
   mounted() {

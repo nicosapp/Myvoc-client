@@ -1,6 +1,6 @@
 <template>
   <div>
-    <WordEditDialog v-for="(d, index) in dialogs" :key="index" :index="index" />
+    <TermEditDialog v-for="(d, index) in dialogs" :key="index" :index="index" />
     <v-bottom-navigation
       v-if="visible"
       v-model="active"
@@ -11,7 +11,7 @@
       :min-width="0"
     >
       <v-btn value="timeline" @click="pushRoute('timeline', 'timeline')">
-        <div>Words</div>
+        <div>Terms</div>
         <v-icon>mdi-format-list-text</v-icon>
       </v-btn>
 
@@ -20,7 +20,7 @@
         <v-icon>mdi-playlist-edit</v-icon>
       </v-btn>
 
-      <v-btn value="create" @click="createWord">
+      <v-btn value="create" @click="createTerm">
         <div>Create</div>
         <v-icon>mdi-plus-circle-outline</v-icon>
       </v-btn>
@@ -84,14 +84,14 @@ export default {
       })
     },
 
-    async createWord() {
+    async createTerm() {
       try {
-        const word = await this.$axios.$post('words')
+        const term = await this.$axios.$post('terms')
         this.setActive('create')
-        this.pushDialog({ id: word.data.id, edit: false })
+        this.pushDialog({ id: term.data.id, edit: false })
         // this.$router.push({
-        //   name: 'words-id-edit',
-        //   params: { id: word.data.id },
+        //   name: 'terms-id-edit',
+        //   params: { id: term.data.id },
         // })
       } catch (e) {}
     },

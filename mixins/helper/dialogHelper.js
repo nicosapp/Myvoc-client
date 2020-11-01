@@ -5,6 +5,7 @@ export default {
       component: 'dialog/component',
       title: 'dialog/title',
       message: 'dialog/message',
+      data: 'dialog/data',
       visibleValue: 'dialog/visible',
       color: 'dialog/color',
       okFunction: 'dialog/okFunction',

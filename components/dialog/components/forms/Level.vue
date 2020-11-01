@@ -6,6 +6,8 @@
     label="Level"
     filled
     hide-details
+    item-text="name"
+    item-value="name"
     single-line
   ></v-select>
 </template>

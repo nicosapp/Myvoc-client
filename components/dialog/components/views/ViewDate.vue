@@ -12,17 +12,17 @@
 import moment from 'moment'
 export default {
   props: {
-    word: {
+    term: {
       required: true,
       type: Object,
     },
   },
   computed: {
     createdAt() {
-      return moment(this.word.created_at).format('LL')
+      return moment(this.term.created_at).format('LL')
     },
     updatedAt() {
-      return moment(this.word.updated_at).format('LL')
+      return moment(this.term.updated_at).format('LL')
     },
   },
 }

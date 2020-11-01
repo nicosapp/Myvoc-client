@@ -12,14 +12,14 @@
 <script>
 export default {
   props: {
-    word: {
+    term: {
       required: true,
       type: Object,
     },
   },
   computed: {
     rating() {
-      return this.word.note ? parseInt(this.word.note) : 0
+      return this.term.note ? parseInt(this.term.note) : 0
     },
   },
 }

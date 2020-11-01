@@ -1,13 +1,13 @@
 <template>
   <div class="primary--text text-h5 font-weight-bold">
-    {{ word | fullWord }}
+    {{ term | fullTerm }}
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    word: {
+    term: {
       required: true,
       type: Object,
     },

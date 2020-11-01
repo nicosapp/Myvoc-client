@@ -44,6 +44,7 @@
               block
               type="submit"
               :disabled="disabled"
+              :loading="loading"
               color="primary"
               height="3rem"
               @click="validate"

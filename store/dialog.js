@@ -2,6 +2,7 @@ export const state = () => ({
   component: '',
   title: '',
   message: '',
+  data: null,
   visible: false,
   color: null,
   okFunction: null,
@@ -17,6 +18,9 @@ export const getters = {
   },
   message(state) {
     return state.message
+  },
+  data(state) {
+    return state.data
   },
   visible(state) {
     return state.visible
@@ -38,6 +42,7 @@ export const mutations = {
     state.component = payload.component || 'DialogDefault'
     state.title = payload.title || null
     state.message = payload.message || ''
+    state.data = payload.data || null
     state.color = payload.color || null
     state.okFunction = payload.okFunction || null
     state.cancelFunction = payload.cancelFunction || null

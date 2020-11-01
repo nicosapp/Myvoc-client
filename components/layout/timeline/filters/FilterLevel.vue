@@ -53,7 +53,7 @@ export default {
     },
   },
   mounted() {
-    if (!this.types) this.$store.dispatch('config/getLevels')
+    if (!this.items) this.$store.dispatch('config/getLevels')
     this.model = this.filterLevel
   },
 }

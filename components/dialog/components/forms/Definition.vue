@@ -52,6 +52,8 @@
 </template>
 
 <script>
+import { cloneDeep as _cloneDeep } from 'lodash'
+
 export default {
   props: {
     value: {
@@ -78,7 +80,7 @@ export default {
   },
   methods: {
     add() {
-      this.definitions.push(this.definitionJson)
+      this.definitions.push(_cloneDeep(this.definitionJson))
     },
     remove(index) {
       this.definitions.splice(index, 1)

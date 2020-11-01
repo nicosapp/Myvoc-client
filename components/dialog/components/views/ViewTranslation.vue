@@ -2,7 +2,7 @@
   <div>
     <div class="text-caption">Translations</div>
     <v-alert
-      v-for="(words, language) in items"
+      v-for="(terms, language) in items"
       :key="language"
       class="preview-definition mb-2"
       text
@@ -16,13 +16,13 @@
       </template>
 
       <v-chip
-        v-for="word in words"
-        :key="word.id"
+        v-for="term in terms"
+        :key="term.id"
         small
         class="mr-1 font-weight-medium"
-        @click.prevent="open(word)"
+        @click.prevent="open(term)"
       >
-        {{ word | fullWord }}
+        {{ term | fullTerm }}
       </v-chip>
     </v-alert>
   </div>
@@ -35,14 +35,14 @@ import editHelper from '@/mixins/edit'
 export default {
   mixins: [editHelper],
   props: {
-    word: {
+    term: {
       required: true,
       type: Object,
     },
   },
   computed: {
     items() {
-      return _groupBy(this.word.translations, 'langue')
+      return _groupBy(this.term.translations, 'langue')
     },
   },
   methods: {

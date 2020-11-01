@@ -1,49 +1,51 @@
 <template>
   <div>
     <v-card class="px-4 elevation-8 mb-4">
-      <FullLang v-model="currentWord" />
+      <FullLang v-model="currentTerm" />
       <v-row>
         <v-col>
-          <Native v-model="currentWord.fra" />
+          <Native v-model="currentTerm.fra" />
         </v-col>
       </v-row>
       <v-row>
         <v-col>
-          <Pronunciation v-model="currentWord.pronon" />
+          <Pronunciation v-model="currentTerm.pronon" />
         </v-col>
       </v-row>
     </v-card>
 
     <v-card class="px-4 elevation-8 mb-4">
-      <LevelRatingHighlight v-model="currentWord" />
-      <Grammar v-model="currentWord.gram" />
-      <Category v-model="currentWord.categories" :word="currentWord" />
+      <LevelRatingHighlight v-model="currentTerm" />
+      <Grammar v-model="currentTerm.grammars" :term="currentTerm" />
+      <Category v-model="currentTerm.categories" :term="currentTerm" />
+      <Tag v-model="currentTerm.tags" :term="currentTerm" />
     </v-card>
 
-    <v-card v-if="!isNative" class="px-4 elevation-8 mb-4">
-      <v-row>
-        <v-col>
-          <LinkTranslation
-            v-model="currentWord.translations"
-            :word="currentWord"
-            to="esp"
-          />
-        </v-col>
-      </v-row>
+    <v-card class="px-4 pt-4 elevation-8 mb-4">
+      <Translation
+        v-if="!isNative"
+        v-model="currentTerm.translations"
+        :term="currentTerm"
+        :from="currentTerm.langue"
+        :to="native"
+        label="Translation"
+      />
+      <Synonym v-model="currentTerm.synomyms" :term="currentTerm" />
+      <ExampleLink v-model="currentTerm.synomyms" :term="currentTerm" />
     </v-card>
     <v-row>
       <v-col>
-        <Definition v-model="currentWord.def_json" />
+        <Definition v-model="currentTerm.def_json" />
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <Example v-model="currentWord.ex_json" />
+        <Example v-model="currentTerm.ex_json" />
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <Conjugation v-model="currentWord.conj" />
+        <Conjugation v-model="currentTerm.conj" />
       </v-col>
     </v-row>
   </div>
@@ -59,7 +61,6 @@ import Conjugation from '../Conjugation'
 import Pronunciation from '../Pronunciation'
 import Grammar from '../Grammar'
 import Category from '../Category'
-import LinkTranslation from '../link/LinkTranslation'
 
 export default {
   components: {
@@ -72,30 +73,32 @@ export default {
     Conjugation,
     Grammar,
     Category,
-
-    LinkTranslation,
   },
   props: {
     value: {
       required: true,
       type: Object,
     },
+    native: {
+      required: true,
+      type: String,
+    },
+    isNative: {
+      required: true,
+      type: Boolean,
+    },
   },
   data() {
     return {
-      currentWord: this.value,
+      currentTerm: this.value,
     }
   },
-  computed: {
-    isNative() {
-      return this.currentWord.langue === this.$auth.user.native
-    },
-  },
+
   watch: {
-    currentWord: {
+    currentTerm: {
       deep: true,
       handler() {
-        this.$emit('input', this.currentWord)
+        this.$emit('input', this.currentTerm)
       },
     },
   },

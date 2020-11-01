@@ -7,7 +7,7 @@ Vue.filter('capitalize', (val) => {
   return val.charAt(0).toUpperCase() + val.slice(1)
 })
 
-Vue.filter('fullWord', (item) => {
+Vue.filter('fullTerm', (item) => {
   if (!item) {
     return ''
   } else if (typeof item === 'string') {

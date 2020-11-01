@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     add() {
-      this.examples.push(this.exampleJson)
+      this.examples.push(_cloneDeep(this.exampleJson))
     },
     remove(index) {
       this.examples.splice(index, 1)

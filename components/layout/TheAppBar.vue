@@ -1,10 +1,11 @@
 <template>
-  <v-app-bar :clipped-left="false" fixed app color="gray lighten-4">
+  <v-app-bar :clipped-left="false" fixed app color="grey lighten-4">
     <!-- MIDDLE -->
     <v-spacer />
     <v-img
       class="mr-3"
       max-height="60px"
+      max-width="200px"
       contain
       :src="require('~/assets/logo.svg')"
     ></v-img>
@@ -12,20 +13,14 @@
     <!-- MIDDLE -->
     <v-btn
       v-if="!$auth.loggedIn && isHomePage"
-      color="primaryText"
+      light
       icon
       nuxt
       to="/auth/signin"
     >
       <v-icon>mdi-login-variant</v-icon>
     </v-btn>
-    <v-btn
-      v-if="$auth.loggedIn && isHomePage"
-      color="primaryText"
-      icon
-      nuxt
-      to="timeline"
-    >
+    <v-btn v-if="$auth.loggedIn && isHomePage" light icon nuxt to="timeline">
       <v-icon>mdi-format-list-text</v-icon>
     </v-btn>
   </v-app-bar>

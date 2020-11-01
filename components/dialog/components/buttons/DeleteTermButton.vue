@@ -7,7 +7,7 @@
 <script>
 export default {
   props: {
-    word: {
+    term: {
       type: Object,
       required: false,
       default: null,
@@ -20,14 +20,14 @@ export default {
   },
   computed: {
     disabled() {
-      return !this.word || this.loading
+      return !this.term || this.loading
     },
   },
   methods: {
     click() {
       this.$dialog.show({
         title: 'Delete',
-        message: 'Do you really want to delete this word?',
+        message: 'Do you really want to delete this term?',
         okFunction: () => {
           this.delete()
         },
@@ -37,9 +37,9 @@ export default {
     async delete() {
       this.loading = true
       try {
-        await this.$axios.$delete(`words/${this.word.id}`)
-        this.$notifier.success({ message: 'Word deleted' })
-        this.$emit('deleted', this.word)
+        await this.$axios.$delete(`terms/${this.term.id}`)
+        this.$notifier.success({ message: 'Term deleted' })
+        this.$emit('deleted', this.term)
       } catch (e) {
         this.$notifier.error500()
       }

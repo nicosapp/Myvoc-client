@@ -8,8 +8,8 @@
 import timelineHelper from '@/mixins/timeline'
 import FilterColumn from './FilterColumn'
 import FilterDictionnary from './FilterDictionnary'
+import FilterTranslation from './FilterTranslation'
 import FilterDisplay from './FilterDisplay'
-import FilterTaxonomy from './FilterTaxonomy'
 import FilterOrderBy from './FilterOrderBy'
 import FilterType from './FilterType'
 
@@ -25,8 +25,8 @@ export default {
   components: {
     FilterColumn,
     FilterDictionnary,
+    FilterTranslation,
     FilterDisplay,
-    FilterTaxonomy,
     FilterOrderBy,
     FilterType,
 

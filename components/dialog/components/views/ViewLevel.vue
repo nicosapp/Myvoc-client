@@ -1,11 +1,11 @@
 <template>
-  <div class="font-weight-medium text--secondary">{{ word.level }}</div>
+  <div class="font-weight-medium text--secondary">{{ term.level }}</div>
 </template>
 
 <script>
 export default {
   props: {
-    word: {
+    term: {
       required: true,
       type: Object,
     },

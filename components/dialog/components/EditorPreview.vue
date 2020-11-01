@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <component :is="`view-type-${typeLowerCase}`" :word="word" />
+    <component :is="`view-type-${typeLowerCase}`" :term="term" />
   </v-container>
 </template>
 
@@ -26,14 +26,14 @@ export default {
     ViewTypeExample,
   },
   props: {
-    word: {
+    term: {
       required: true,
       type: Object,
     },
   },
   computed: {
     typeLowerCase() {
-      return this.word.forme.toLowerCase()
+      return this.term.forme.toLowerCase()
     },
   },
 }

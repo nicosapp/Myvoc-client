@@ -280,7 +280,10 @@ export default {
     },
     async updateInfos() {
       try {
-        await this.$axios.$patch(`users/${this.$auth.user.uuid}`, this.form)
+        await this.$axios.$patch(
+          `users/${this.$auth.user.uuid}/email`,
+          this.form
+        )
         this.$notifier.success({ message: 'User infos updated!' })
         await this.$auth.fetchUser()
       } catch (e) {

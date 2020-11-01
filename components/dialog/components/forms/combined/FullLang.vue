@@ -1,24 +1,30 @@
 <template>
-  <v-row>
-    <v-col>
-      <v-text-field
-        v-model="currentWord.pre"
-        hide-details
-        label="Pre"
-        filled
-      ></v-text-field>
-    </v-col>
-    <v-col cols="8">
-      <Lang v-model="currentWord.lang" />
-    </v-col>
-    <v-col>
-      <v-text-field
-        v-model="currentWord.suf"
-        hide-details
-        label="Suf"
-        filled
-      ></v-text-field>
-    </v-col>
+  <v-row class="pa-3">
+    <v-text-field
+      v-model="currentTerm.pre"
+      hide-details
+      label="Pre"
+      filled
+      class="pre"
+      :style="dynStyle"
+    ></v-text-field>
+
+    <Lang
+      v-model="currentTerm.lang"
+      class="term flex-grow-1"
+      :class="{ 'mx-3': !langFocused }"
+      @focus="langFocused = true"
+      @blur="langFocused = false"
+    />
+
+    <v-text-field
+      v-model="currentTerm.suf"
+      hide-details
+      label="Suf"
+      filled
+      class="suf"
+      :style="dynStyle"
+    ></v-text-field>
   </v-row>
 </template>
 
@@ -36,11 +42,17 @@ export default {
   },
   data() {
     return {
-      currentWord: this.value,
+      currentTerm: this.value,
+      langFocused: false,
     }
   },
+  computed: {
+    dynStyle() {
+      return this.langFocused ? { opacity: '0', 'max-width': '0%' } : {}
+    },
+  },
   watch: {
-    currentWord: {
+    currentTerm: {
       deep: true,
       handler(newValue) {
         this.$emit('input', newValue)
@@ -49,3 +61,19 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.term,
+.pre,
+.suf {
+  transition: all 0.3s ease-in-out;
+}
+.pre,
+.suf {
+  max-width: 10%;
+}
+.pre.v-input--is-focused,
+.suf.v-input--is-focused {
+  max-width: 40%;
+}
+</style>

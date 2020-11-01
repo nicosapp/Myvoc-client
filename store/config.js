@@ -72,83 +72,49 @@ export const actions = {
   getConfig({ dispatch }) {
     dispatch('getDictionnaries')
   },
-  getDictionnaries({ commit }) {
-    const value = [
-      { key: 'fra', value: 'French' },
-      { key: 'ang', value: 'English' },
-      { key: 'all', value: 'German' },
-      { key: 'esp', value: 'Spanish' },
-      { key: 'ita', value: 'Italian' },
-    ]
-    commit('SET_DICTIONNARIES', value)
+  async getDictionnaries({ commit }) {
+    const response = await this.$axios.$get('dictionnaries')
+    commit('SET_DICTIONNARIES', response.data)
   },
   async getCategories({ commit }) {
-    const categories = await this.$axios.$get('categories')
+    const response = await this.$axios.$get('categories')
     commit('SET_CATEGORIES', {
-      categories: categories.data,
+      categories: response.data,
     })
   },
   async getNestedCategories({ commit }) {
-    const nested = await this.$axios.$get('categories?nested=1')
+    const response = await this.$axios.$get('categories?nested=1')
     commit('SET_CATEGORIES', {
-      nestedCategories: nested.data,
+      nestedCategories: response.data,
     })
   },
-  getTypes({ commit }) {
-    const value = [
-      { name: 'word' },
-      { name: 'locution' },
-      { name: 'expression' },
-      { name: 'example' },
-      { name: 'definition' },
-      { name: 'quote' },
-      { name: 'note' },
-      { name: 'grammar' },
-      { name: 'acronym' },
-    ]
-    commit('SET_TYPES', value)
+  async getTypes({ commit }) {
+    const response = await this.$axios.$get('taxonomies?tax=type')
+    commit('SET_TYPES', response.data)
   },
 
-  getLevels({ commit }) {
-    const value = [
-      { name: 'soutenu' },
-      { name: 'courant' },
-      { name: 'familier' },
-    ]
-    commit('SET_LEVELS', value)
+  async getLevels({ commit }) {
+    const response = await this.$axios.$get('taxonomies?tax=level')
+    commit('SET_LEVELS', response.data)
   },
 
-  getGrammars({ commit }) {
-    const value = [
-      { name: 'verbe' },
-      { name: 'nom' },
-      { name: 'adjectif' },
-      { name: 'adverbe' },
-    ]
-    commit('SET_GRAMMARS', value)
+  async getGrammars({ commit }) {
+    const response = await this.$axios.$get('taxonomies?tax=grammar')
+    commit('SET_GRAMMARS', response.data)
   },
 
-  getRatings({ commit }) {
-    const value = [
-      { name: '1' },
-      { name: '2' },
-      { name: '3' },
-      { name: '4' },
-      { name: '5' },
-    ]
-    commit('SET_RATINGS', value)
+  async getRatings({ commit }) {
+    const response = await this.$axios.$get('taxonomies?tax=rating')
+    commit('SET_RATINGS', response.data)
   },
 
-  getHighlights({ commit }) {
-    const value = [{ name: '1' }, { name: '2' }, { name: '3' }]
-    commit('SET_HIGHLIGHTS', value)
+  async getHighlights({ commit }) {
+    const response = await this.$axios.$get('taxonomies?tax=highlight')
+    commit('SET_HIGHLIGHTS', response.data)
   },
 
-  getTags({ commit }) {
-    const value = [
-      { name: 'eco', slug: 'eco' },
-      { name: 'scolaire', slug: 'scolaire' },
-    ]
-    commit('SET_TAGS', value)
+  async getTags({ commit }) {
+    const tags = await this.$axios.$get('tags')
+    commit('SET_TAGS', tags.data)
   },
 }

@@ -1,14 +1,14 @@
 <template>
-  <v-app-bar :clipped-left="false" fixed app color="primary">
+  <v-app-bar fixed app>
     <!-- MIDDLE -->
     <v-spacer />
-    <v-toolbar-title class="primaryText--text font-title">
+    <v-toolbar-title class="primary--text font-title">
       Your Profile
     </v-toolbar-title>
     <v-spacer />
     <!-- MIDDLE -->
     <SignOutButton>
-      <v-icon color="primaryText">mdi-logout-variant</v-icon>
+      <v-icon>mdi-logout-variant</v-icon>
     </SignOutButton>
   </v-app-bar>
 </template>

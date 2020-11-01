@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div>
-      {{ word }}
+      {{ term }}
       <v-tabs v-model="tab" centered>
         <v-tabs-slider></v-tabs-slider>
         <v-tab class="ma-0 pa-0">
@@ -31,10 +31,10 @@
         </v-tab>
         <v-tabs-items v-model="tab" class="mt-2">
           <v-tab-item value="attributes">
-            <EditorAttributes v-model="word" />
+            <EditorAttributes v-model="term" />
           </v-tab-item>
           <v-tab-item value="translation">
-            <EditorTranslation v-model="word" />
+            <EditorTranslation v-model="term" />
           </v-tab-item>
           <v-tab-item value="preview">
             <EditorPreview />
@@ -56,20 +56,20 @@ export default {
     EditorPreview,
   },
   async asyncData({ app, params }) {
-    const response = await app.$axios.$get(`words/${params.id}`)
+    const response = await app.$axios.$get(`terms/${params.id}`)
 
     return {
-      word: response.data,
+      term: response.data,
     }
   },
   data() {
     return {
-      word: null,
+      term: null,
     }
   },
   computed: {
     isNative() {
-      return this.word.langue === this.$auth.user.native
+      return this.term.langue === this.$auth.user.native
     },
     tab: {
       get() {
@@ -77,8 +77,8 @@ export default {
       },
       set(tabValue) {
         this.$router.push({
-          name: 'words-id-edit',
-          params: { id: this.word.id },
+          name: 'terms-id-edit',
+          params: { id: this.term.id },
           query: { tab: tabValue },
         })
       },
@@ -87,8 +87,8 @@ export default {
   methods: {
     async update() {
       try {
-        await this.$axios.$patch(`words/${this.word.id}`, this.word)
-        this.$notifier.success({ message: 'Word updated' })
+        await this.$axios.$patch(`terms/${this.term.id}`, this.term)
+        this.$notifier.success({ message: 'Term updated' })
       } catch (e) {
         this.$notifier.error500()
       }

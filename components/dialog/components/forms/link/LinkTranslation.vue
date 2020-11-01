@@ -1,49 +1,44 @@
 <template>
-  <v-autocomplete
-    v-model="model"
-    :items="items"
-    :label="label"
-    multiple
-    filled
-    :search-input.sync="search"
-    item-value="id"
-    item-text="lang"
-    clearable
-    return-object
-    hide-no-data
-    hide-details
-    :menu-props="menuConfig"
-  >
-    <template v-slot:selection="data">
+  <div class="relative">
+    <v-menu left offset-y close-on-click :max-height="200">
+      <template v-slot:activator="{ on, attrs }">
+        <v-text-field
+          v-model="search"
+          hide-details
+          filled
+          v-bind="attrs"
+          :label="label"
+          :loading="loading"
+          v-on="on"
+        >
+        </v-text-field>
+      </template>
+      <v-list v-if="items.length">
+        <v-list-item
+          v-for="(item, index) in items"
+          :key="index"
+          @click.prevent="add(item)"
+        >
+          <ListItemContentShortTerm :item="item" />
+        </v-list-item>
+      </v-list>
+    </v-menu>
+    <div class="pa-3">
       <v-chip
-        v-bind="data.attrs"
-        :input-value="data.selected"
+        v-for="item in model"
+        :key="item.id"
+        class="mr-1 mb-1"
         close
-        @click="data.select"
-        @click:close="remove(data.item)"
+        @click:close="remove(item)"
       >
-        {{ data.item | fullWord }}
+        <ChipContentShortTerm :item="item" />
       </v-chip>
-    </template>
-
-    <template v-slot:item="data">
-      <v-list-item-content>
-        <v-list-item-title>
-          {{ data.item | fullWord }}
-        </v-list-item-title>
-        <v-list-item-subtitle>
-          <strong>{{ data.item.forme }}</strong>
-          <i>{{ data.item.langue }}</i>
-          {{ data.item.gram }}
-        </v-list-item-subtitle>
-      </v-list-item-content>
-      <!-- <v-list-item-content v-text="data.item.name"></v-list-item-content> -->
-    </template>
-  </v-autocomplete>
+    </div>
+  </div>
 </template>
 
 <script>
-import { debounce as _debounce, get as _get } from 'lodash'
+import { debounce as _debounce } from 'lodash'
 import queryString from 'query-string'
 
 export default {
@@ -53,7 +48,7 @@ export default {
       required: false,
       default: () => [],
     },
-    word: {
+    term: {
       required: true,
       type: Object,
     },
@@ -84,10 +79,10 @@ export default {
   },
   data() {
     return {
-      items: this.value.filter((w) => w.langue === this.to),
-      model: this.items,
+      items: [],
+      model: [],
       search: null,
-      isLoading: false,
+      loading: false,
     }
   },
   computed: {
@@ -96,35 +91,36 @@ export default {
     },
   },
   watch: {
-    model(newValue, oldValue) {
-      this.$emit('input', newValue)
-      if (_get(newValue, 'length') > _get(oldValue, 'length')) {
-        this.link(newValue.slice(-1)[0])
-      }
-    },
     search: {
       handler: _debounce(function (value) {
         this.apiQuery(value)
       }, 500),
     },
   },
+  mounted() {
+    this.model = this.value.filter((w) => w.langue === this.to)
+  },
   methods: {
     async apiQuery(value) {
-      if (this.isLoading) return
-      this.isLoading = true
+      if (this.loading) return
+      this.loading = true
       const query = {}
       query.search = value
       query.langue = this.to
       query.column = this.column
       query.byNative = this.byNative
       const response = await this.$axios.$get(
-        `words/autocomplete?${queryString.stringify(query)}`
+        `terms/autocomplete?${queryString.stringify(query)}`
       )
       // console.log(response.data)
       if (response) {
         this.items = response.data
       }
-      this.isLoading = false
+      this.loading = false
+    },
+    add(item) {
+      this.link(item)
+      this.model.push(item)
     },
 
     remove(item) {
@@ -138,7 +134,7 @@ export default {
     link(translation) {
       try {
         this.$axios.$post(
-          `words/${this.word.id}/translations/${translation.id}`
+          `terms/${this.term.id}/translations/${translation.id}`
         )
         this.$notifier.success({ message: 'It is now linked!' })
       } catch (e) {
@@ -149,7 +145,7 @@ export default {
     unlink(translation) {
       try {
         this.$axios.$delete(
-          `words/${this.word.id}/translations/${translation.id}`
+          `terms/${this.term.id}/translations/${translation.id}`
         )
         this.$notifier.success({ message: 'It is now unlinked!' })
       } catch (e) {

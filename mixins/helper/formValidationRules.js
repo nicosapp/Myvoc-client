@@ -6,9 +6,9 @@ export default {
         emailValid: (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
         numeric: (v) => !v || /^\d+$/.test(v) || 'Should just contain numbers',
         min: (minnum, v) =>
-          !v || (v || '').length >= minnum || 'Min characters exceeded',
+          !v || (v || '').length >= minnum || 'Min characters is ' + minnum,
         max: (maxnum, v) =>
-          !v || (v || '').length <= maxnum || 'Max characters exceeded',
+          !v || (v || '').length <= maxnum || 'Max characters is ' + maxnum,
         size: (size, v) =>
           !v || (v || '').length === size || 'Size is not correct',
         passwordLength: (v) => v.length >= 8 || 'Min 8 characters',

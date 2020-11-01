@@ -5,9 +5,10 @@
     label="Langue"
     hide-details
     filled
-    item-text="value"
-    item-value="key"
+    item-text="name"
+    item-value="slug"
     :disabled="disabled"
+    return-object
   ></v-select>
 </template>
 
@@ -29,7 +30,7 @@ export default {
 
   data() {
     return {
-      selected: this.value,
+      selected: {},
     }
   },
 
@@ -41,11 +42,16 @@ export default {
 
   watch: {
     selected(newValue) {
-      this.$emit('input', newValue)
+      if (newValue) this.$emit('input', newValue.slug)
+    },
+    items(items) {
+      this.selected = this.items.find((i) => i.slug === this.value)
     },
   },
   mounted() {
-    if (!this.items) this.$store.dispatch('config/getDictionnaries')
+    if (!this.items) {
+      this.$store.dispatch('config/getDictionnaries')
+    }
   },
 }
 </script>

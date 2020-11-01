@@ -1,11 +1,11 @@
 <template>
-  <v-app-bar dark :clipped-left="false" fixed app color="primary">
+  <v-app-bar :clipped-left="false" fixed app>
     <v-btn icon @click.prevent="toggleDrawerLeft">
       <v-icon>mdi-menu</v-icon>
     </v-btn>
     <!-- MIDDLE -->
     <v-spacer />
-    <v-toolbar-title class="primaryText--text font-title">
+    <v-toolbar-title class="primary--text font-title">
       Dashboard
     </v-toolbar-title>
     <v-spacer />

@@ -4,7 +4,7 @@
     <VueMarkdown
       class="preview-conjugation"
       :watches="extensions"
-      :source="word.conj"
+      :source="term.conj"
     ></VueMarkdown>
   </div>
 </template>
@@ -16,7 +16,7 @@ export default {
     VueMarkdown,
   },
   props: {
-    word: {
+    term: {
       required: true,
       type: Object,
     },

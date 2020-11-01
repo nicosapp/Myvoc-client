@@ -5,11 +5,11 @@
     </v-col>
     <v-col class="py-2">
       <v-btn
-        v-for="item in word.grammars"
+        v-for="item in term.grammars"
         :key="item.id"
         rounded
         small
-        class="elevation-2 text-capitalize"
+        class="elevation-2 text-capitalize mb-1 mr-1"
       >
         {{ item.name }}
       </v-btn>
@@ -20,7 +20,7 @@
 <script>
 export default {
   props: {
-    word: {
+    term: {
       required: true,
       type: Object,
     },

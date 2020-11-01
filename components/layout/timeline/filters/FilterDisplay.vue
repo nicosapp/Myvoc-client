@@ -35,7 +35,7 @@ export default {
     return {
       items: [
         { name: 'Cross Dico' },
-        { name: 'Word' },
+        { name: 'Term' },
         { name: 'Native' },
         { divider: true },
         { name: 'Definition' },

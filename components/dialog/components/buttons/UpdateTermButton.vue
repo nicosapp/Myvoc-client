@@ -7,7 +7,7 @@
 <script>
 export default {
   props: {
-    word: {
+    term: {
       type: Object,
       required: false,
       default: null,
@@ -20,15 +20,15 @@ export default {
   },
   computed: {
     disabled() {
-      return !this.word || this.loading
+      return !this.term || this.loading
     },
   },
   methods: {
     async click() {
       this.loading = true
       try {
-        await this.$axios.$patch(`words/${this.word.id}`, this.word)
-        this.$notifier.success({ message: 'Word updated' })
+        await this.$axios.$patch(`terms/${this.term.id}`, this.term)
+        this.$notifier.success({ message: 'Term updated' })
       } catch (e) {
         this.$notifier.error500()
       }

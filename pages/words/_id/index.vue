@@ -1,19 +1,19 @@
 <template>
-  <v-container>{{ word }}</v-container>
+  <v-container>{{ term }}</v-container>
 </template>
 
 <script>
 export default {
   async asyncData({ app, params }) {
-    const response = await app.$axios.$get(`words/${params.id}`)
+    const response = await app.$axios.$get(`terms/${params.id}`)
 
     return {
-      word: response.data.data,
+      term: response.data.data,
     }
   },
   data() {
     return {
-      word: null,
+      term: null,
     }
   },
 }

@@ -53,7 +53,7 @@ export default {
     },
   },
   mounted() {
-    if (!this.types) this.$store.dispatch('config/getGrammars')
+    if (!this.items) this.$store.dispatch('config/getGrammars')
     this.model = this.filterGrammar
   },
 }

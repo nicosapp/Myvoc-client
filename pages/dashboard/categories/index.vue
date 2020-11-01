@@ -1,138 +1,176 @@
 <template>
-  <v-container>
-    <div class="md:flex justify-end mb-2">
-      <form
-        class="flex w-full items-center mr-2 mb-2 md:mb-0"
-        @submit.prevent="add"
-      >
-        <input
-          v-model="create.name"
-          type="text"
-          class="py-2 px-3 border outline-none border-gray-400 bg-white text-gray-700 rounded flex-grow mr-2"
-          placeholder="Category"
-          name="name"
+  <v-row justify="center">
+    <v-col cols="12" md="6">
+      <v-form ref="form" v-model="valid" @submit.prevent="add">
+        <div style="position: relative">
+          <v-text-field
+            v-model="search"
+            filled
+            name="name"
+            label="Category"
+            clearable
+            :rules="[required]"
+            :loading="loading"
+            :disabled="loading"
+            :error-messages="validation.name"
+            @input="validation = {}"
+          >
+          </v-text-field>
+          <v-btn
+            color="primary"
+            small
+            :loading="loading"
+            :disabled="disabled"
+            fab
+            absolute
+            style="top: 8px; right: 8px"
+            type="submit"
+            @click="validate"
+          >
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </div>
+      </v-form>
+
+      <LoadingCircular v-if="!dictionnaries" height="200px" />
+      <div v-else>
+        <div class="mb-3 d-flex justify-center">
+          <v-btn
+            value="Save"
+            type="button"
+            color="primary"
+            :loading="loading"
+            :disabled="loading"
+            @click="updatedOrder"
+            >Update Order</v-btn
+          >
+        </div>
+        <CategorySortable
+          :categories="items"
+          :remove="destroy"
+          :click="edit"
+          :remove-btn="true"
         />
-        <NizButtonSubmit value="Add" :loading="loading" />
-      </form>
-      <v-btn
-        value="Save"
-        type="button"
-        class="w-full lg:w-auto"
-        :loading="loading"
-        @click="updateCategories"
-      />
-    </div>
-    <CategorySortable
-      :categories="categories"
-      :remove="remove"
-      :click="clickCategory"
-      :remove-btn="true"
-    />
-  </v-container>
+      </div>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
-// import { filter as _filter } from 'lodash'
-import { filterDeep as _filterDeep } from 'deepdash'
+import {
+  filterDeep as _filterDeep,
+  eachDeep as _eachDeep,
+} from 'deepdash-es/standalone'
+
 import { flattenCategories as _flattenCategories } from './components/flattenCategoriesArray'
 import CategorySortable from './components/CategorySortable'
+
 export default {
+  layout: 'dashboard',
+  middleware: ['verified'],
   components: {
     CategorySortable,
   },
-  async asyncData({ app }) {
-    const response = await app.$axios.$get('me/categories')
-
-    return {
-      categories: response.data,
-    }
-  },
   data() {
     return {
-      categories: [],
-      create: {
-        name: '',
-      },
-      edit: {
-        id: null,
-        name: '',
-        user_id: null,
-      },
+      valid: true,
+      required: (v) => !!v || 'Required.',
+      search: null,
+      items: null,
       loading: false,
+      validation: {},
     }
   },
+
+  computed: {
+    disabled() {
+      return !this.valid || this.loading
+    },
+  },
+
+  async mounted() {
+    try {
+      const response = await this.$axios.$get('categories/?nested=1')
+      this.items = response.data
+    } catch (e) {}
+  },
   methods: {
-    async add() {
-      try {
-        const response = await this.$axios.post('me/categories', this.create)
-        this.categories.push(response.data.data)
-        this.create = { name: '' }
-        this.$notifySuccess({
-          title: this.$t('Category created!'),
-          text: this.$t('Your category is now created!'),
-        })
-      } catch (e) {
-        this.$notifyError({ title: 'Error', text: e.response.data.error })
-      }
+    validate() {
+      this.$refs.form.validate()
+    },
+    add() {
+      this.update('post', 'added', { name: this.search })
     },
 
-    async update() {
-      if (this.edit.id != null) {
-        try {
-          await this.$axios.$patch(`me/categories/${this.edit.id}`, this.edit)
-          this.$notifySuccess({
-            title: this.$t('Category updated!'),
-            text: this.$t('Your category is now updated!'),
-          })
-        } catch (e) {
-          this.$notifyError({ title: 'Error', text: e.response.data.error })
+    edit(item) {
+      this.$dialog.show({
+        component: 'DialogConfirm',
+        title: 'Update',
+        message: 'Choose your new the designation!',
+        data: { text: item.name },
+        okFunction: (newValue) => {
+          const newItem = { ...item, ...{ name: newValue } }
+          this.update('patch', 'updated', newItem)
+        },
+      })
+    },
+
+    destroy(item) {
+      this.$dialog.show({
+        title: 'Delete',
+        message: `Do you really want to delete this category?`,
+        okFunction: () => {
+          this.update('delete', 'deleted', item)
+        },
+      })
+    },
+
+    async update(method, action, item) {
+      this.loading = true
+      try {
+        let response = null
+        switch (method) {
+          case 'post':
+            response = await this.$axios.$post('categories', item)
+            this.items.push(response.data)
+            break
+          case 'patch':
+            response = await this.$axios.$patch(`categories/${item.id}`, item)
+            // const path = _findPathDeep(this.items, (c) => c.id === item.id)
+            // console.log(path)
+            _eachDeep(this.items, (c) => {
+              if (c && c.id === item.id) c.name = item.name
+            })
+            break
+          case 'delete':
+            await this.$axios.$delete(`categories/${item.id}`)
+            this.items = _filterDeep(this.items, (c) => c.id !== item.id, {
+              childrenPath: 'children',
+            })
+            break
         }
+        this.$notifier.success({ message: `Category ${action}!` })
+      } catch (e) {
+        if (e.response && e.response.status === 422) {
+          this.validation = e.response.data.errors
+        }
+        this.$notifier.error({ message: 'Sorry, we found an error :(' })
       }
+      this.loading = false
     },
 
-    async remove(category) {
-      if (
-        !window.confirm(
-          this.$t('Are you sure you want to delete this category?')
-        )
-      ) {
-        return
-      }
+    async updatedOrder() {
+      this.loading = true
       try {
-        await this.$axios.$delete(`me/categories/${category.id}`)
-        this.categories = _filterDeep(
-          this.categories,
-          (c) => c.id !== category.id,
-          {
-            childrenPath: 'children',
-          }
-        )
-        this.$notifySuccess({
-          title: this.$t('Category deleted!'),
-          text: this.$t('Your category is now deleted!'),
-        })
-      } catch (e) {
-        this.$notifyError({ title: 'Error', text: e.response.data.error })
-      }
-    },
-    async updateCategories() {
-      try {
-        const flatCategories = _flattenCategories(this.categories, 'children')
-        await this.$axios.$patch('me/categoriesBulk', {
+        const flatCategories = _flattenCategories(this.items, 'children')
+        await this.$axios.$patch('categories/bulk', {
           categories: flatCategories,
         })
-        this.$notifySuccess({
-          title: this.$t('Categories sorted!'),
-          text: this.$t('Your categories are now sorted!'),
-        })
+        this.$notifier.success({ message: `Order upadated!` })
       } catch (e) {
-        this.$notifyError({ title: 'Error', text: e.response.data.error })
+        this.$notifier.error({ message: 'Sorry, we found an error :(' })
       }
-    },
-
-    clickCategory(category) {
-      this.edit = category
-      this.$refs.tabs.selectedIndex = 1
+      this.loading = false
     },
   },
   head() {

@@ -2,7 +2,7 @@
   <Draggable
     tag="ul"
     :list="categories"
-    class="dragArea"
+    class="dragArea category-draggable"
     :animation="300"
     ghost-class="ghost"
     handle=".handle"
@@ -72,5 +72,9 @@ export default {
 <style scoped>
 .dragArea {
   min-height: 10px;
+}
+.category-draggable {
+  list-style: none;
+  padding-left: 0;
 }
 </style>

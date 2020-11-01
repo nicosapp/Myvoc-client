@@ -1,7 +1,5 @@
 <template>
-  <v-container>
-    <v-btn :to="{ name: 'dashboard-categories' }"> Categories </v-btn>
-  </v-container>
+  <v-container> Dashboard </v-container>
 </template>
 
 <script>

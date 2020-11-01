@@ -1,23 +1,29 @@
 <template>
   <v-container>
-    <v-form>
-      <!-- LANG & FORM -->
-      <v-card class="px-4 mb-4 elevation-8">
-        <v-row>
-          <v-col cols="6">
-            <Language v-model="currentWord.langue" :disabled="edit" />
-          </v-col>
-          <v-col cols="6">
-            <Type v-model="currentWord.forme" />
-          </v-col>
-        </v-row>
-      </v-card>
-      <component :is="`type-${typeLowerCase}`" v-model="currentWord" />
-    </v-form>
+    <!-- LANG & FORM -->
+    <v-card class="px-4 mb-4 elevation-8">
+      <v-row>
+        <v-col cols="6">
+          <Language v-model="currentTerm.langue" :disabled="edit" />
+        </v-col>
+        <v-col cols="6">
+          <Type v-model="currentTerm.forme" />
+        </v-col>
+      </v-row>
+    </v-card>
+    <component
+      :is="`type-${typeLowerCase}`"
+      v-if="typeLowerCase"
+      v-model="currentTerm"
+      :native="native"
+      :is-native="isNative"
+    />
   </v-container>
 </template>
 
 <script>
+import { get as _get } from 'lodash'
+
 import Language from './forms/Language'
 import Type from './forms/Type'
 
@@ -54,20 +60,29 @@ export default {
       type: Boolean,
       default: true,
     },
+    native: {
+      required: true,
+      type: String,
+    },
+    isNative: {
+      required: true,
+      type: Boolean,
+    },
   },
   data() {
     return {
-      type: 'word',
-      currentWord: this.value,
+      currentTerm: this.value,
     }
   },
   computed: {
     typeLowerCase() {
-      return this.type.toLowerCase()
+      return _get(this, 'currentTerm.forme', false)
+        ? this.currentTerm.forme.toLowerCase()
+        : null
     },
   },
   watch: {
-    currentWord: {
+    currentTerm: {
       deep: true,
       handler(newValue) {
         this.$emit('input', newValue)

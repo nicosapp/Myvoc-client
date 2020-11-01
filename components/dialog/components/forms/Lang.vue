@@ -7,9 +7,11 @@
           hide-details
           filled
           v-bind="attrs"
-          label="Word"
+          label="Term"
           v-on="on"
           @input="(v) => $emit('input', v)"
+          @focus="$emit('focus', true)"
+          @blur="$emit('blur', true)"
         >
         </v-text-field>
       </template>
@@ -19,16 +21,7 @@
           :key="index"
           @click.prevent="edit(item)"
         >
-          <v-list-item-content>
-            <v-list-item-title>
-              {{ item | fullWord }}
-            </v-list-item-title>
-            <v-list-item-subtitle>
-              <strong>{{ item.forme }}</strong>
-              <i>{{ item.langue }}</i>
-              {{ item.gram }}
-            </v-list-item-subtitle>
-          </v-list-item-content>
+          <ListItemContentShortTerm :item="item" />
         </v-list-item>
       </v-list>
     </v-menu>
@@ -55,7 +48,7 @@ export default {
     label: {
       required: false,
       type: String,
-      default: 'Word',
+      default: 'Term',
     },
     preload: {
       type: Array,
@@ -69,8 +62,8 @@ export default {
       search: this.value,
       showMenu: false,
       items: [],
-      isLoading: false,
-      currentWord: this.value,
+      loading: false,
+      currentTerm: this.value,
     }
   },
   watch: {
@@ -79,7 +72,7 @@ export default {
         await this.apiQuery(value, this)
       }, 500),
     },
-    currentWord: {
+    currentTerm: {
       deep: true,
       handler(value) {
         if (value) this.$emit('input', value)
@@ -87,33 +80,30 @@ export default {
     },
   },
   created() {
-    if (this.currentWord) {
-      this.model = this.currentWord
+    if (this.currentTerm) {
+      this.model = this.currentTerm
     }
   },
   methods: {
     async apiQuery(value, self) {
+      if (this.loading) return
+      this.loading = true
       const query = {}
       query.search = value
       const response = await self.$axios.$get(
-        `words/autocomplete?${queryString.stringify(query)}`
+        `terms/autocomplete?${queryString.stringify(query)}`
       )
       // console.log(response.data)
       if (response) {
         self.items = [...response.data]
         if (response.length) self.showMenu = true
       }
+      this.loading = false
     },
 
     edit(item) {
       this.pushDialog({ id: item.id, edit: true })
     },
-    // blur() {
-    //   if (this.search) {
-    //     this.currentWord.lang = this.search
-    //     this.model = this.currentWord
-    //   }
-    // },
   },
 }
 </script>

@@ -1,14 +1,14 @@
 <template>
   <div>
     <span class="text-caption">Other:</span>
-    <span class="text-subtitle-2">{{ word.fra }}</span>
+    <span class="text-subtitle-2">{{ term.fra }}</span>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    word: {
+    term: {
       required: true,
       type: Object,
     },

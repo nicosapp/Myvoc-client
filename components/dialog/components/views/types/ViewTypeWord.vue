@@ -1,31 +1,31 @@
 <template>
   <div>
     <v-card class="pa-4 mb-3">
-      <ViewDate :word="word" />
+      <ViewDate :term="term" />
       <v-row align="baseline">
         <v-col cols="6">
-          <ViewLang :word="word" class="text-center" />
-          <ViewPronunciation :word="word" class="text-center" />
+          <ViewLang :term="term" class="text-center" />
+          <ViewPronunciation :term="term" class="text-center" />
         </v-col>
         <v-col cols="6" class="text-right">
-          <ViewRating :word="word" />
-          <ViewLevel :word="word" />
+          <ViewRating :term="term" />
+          <ViewLevel :term="term" />
         </v-col>
       </v-row>
-      <ViewGrammar :word="word" />
-      <ViewCategory :word="word" />
-      <ViewTag :word="word" />
+      <ViewGrammar :term="term" />
+      <ViewCategory :term="term" />
+      <ViewTag :term="term" />
     </v-card>
     <v-card class="pa-4 mb-3">
-      <ViewTranslation :word="word" />
-      <ViewNative v-if="!isNative" :word="word" />
+      <ViewTranslation :term="term" />
+      <ViewNative v-if="!isNative" :term="term" />
     </v-card>
     <v-card class="pa-4 mb-3">
-      <ViewDefinition :word="word" />
-      <ViewExample :word="word" />
+      <ViewDefinition :term="term" />
+      <ViewExample :term="term" />
     </v-card>
     <v-card class="pa-4">
-      <ViewConjugation :word="word" />
+      <ViewConjugation :term="term" />
     </v-card>
   </div>
 </template>
@@ -34,14 +34,14 @@
 export default {
   components: {},
   props: {
-    word: {
+    term: {
       type: Object,
       required: true,
     },
   },
   computed: {
     isNative() {
-      return this.word.langue === this.$auth.user.native
+      return this.term.langue === this.$auth.user.native
     },
   },
 }

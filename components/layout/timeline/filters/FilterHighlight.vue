@@ -53,7 +53,7 @@ export default {
     },
   },
   mounted() {
-    if (!this.types) this.$store.dispatch('config/getHighlights')
+    if (!this.items) this.$store.dispatch('config/getHighlights')
     this.model = this.filterHighlight
   },
 }

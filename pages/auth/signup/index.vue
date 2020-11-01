@@ -67,7 +67,8 @@
               block
               height="3em"
               type="submit"
-              :disabled="!valid"
+              :disabled="disabled"
+              :loading="loading"
               color="primary"
               class="mr-4"
               @click="validate"
@@ -106,11 +107,15 @@ export default {
         password: '',
         password_confirmation: '',
       },
+      loading: false,
     }
   },
   computed: {
     isError() {
       return Object.keys(this.validation).length
+    },
+    disabled() {
+      return !this.valid || this.loading
     },
   },
   methods: {
@@ -120,10 +125,12 @@ export default {
     },
     async signup() {
       try {
+        this.loading = true
         await this.$axios.$post('auth/signup', this.form)
         this.$router.push({
           name: 'auth-signin',
         })
+        this.loading = false
       } catch (e) {
         if (e.response.status === 422) {
           this.validation = e.response.data.errors

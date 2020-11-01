@@ -5,7 +5,9 @@
     label="Forme"
     filled
     hide-details
-    @change="$emit('change', selected)"
+    item-value="name"
+    item-text="name"
+    return-object
   >
     <template v-slot:selection="data">
       <!-- HTML that describe how select should render selected items -->
@@ -24,13 +26,13 @@ export default {
   props: {
     value: {
       required: false,
-      default: 'word',
+      default: null,
       type: String,
     },
   },
   data() {
     return {
-      selected: { name: this.value },
+      selected: {},
     }
   },
   computed: {
@@ -40,11 +42,18 @@ export default {
   },
   watch: {
     selected(newValue) {
-      this.$emit('input', newValue.name)
+      if (newValue) {
+        this.$emit('input', newValue.name)
+      }
+    },
+    items(items) {
+      this.selected = this.items.find((i) => i.name === this.value)
     },
   },
   mounted() {
-    if (!this.items) this.$store.dispatch('config/getTypes')
+    if (!this.items) {
+      this.$store.dispatch('config/getTypes')
+    }
   },
 }
 </script>

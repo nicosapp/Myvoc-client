@@ -1,13 +1,13 @@
 <template>
   <v-row class="mb-4">
     <v-col cols="4">
-      <Level v-model="currentWord.level" />
+      <Level v-model="currentTerm.level" />
     </v-col>
     <v-col cols="4">
-      <Rating v-model="currentWord.note" />
+      <Rating v-model="currentTerm.note" />
     </v-col>
     <v-col cols="4">
-      <Highlight v-model="currentWord.imp" />
+      <Highlight v-model="currentTerm.imp" />
     </v-col>
   </v-row>
 </template>
@@ -31,11 +31,11 @@ export default {
   },
   data() {
     return {
-      currentWord: this.value,
+      currentTerm: this.value,
     }
   },
   watch: {
-    currentWord: {
+    currentTerm: {
       deep: true,
       handler(newValue) {
         this.$emit('input', newValue)

@@ -53,7 +53,7 @@ export default {
     },
   },
   mounted() {
-    if (!this.types) this.$store.dispatch('config/getRatings')
+    if (!this.items) this.$store.dispatch('config/getRatings')
     this.model = this.filterRating
   },
 }

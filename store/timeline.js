@@ -7,8 +7,8 @@ export const state = () => ({
   type: ['word'],
   dictionnary: 'fra',
   crossDico: 0,
-  taxonomy: 'category',
   orderBy: 'alphabetical',
+  translation: [],
   display: '',
   column: 2,
 
@@ -20,15 +20,17 @@ export const state = () => ({
   date: null,
   tag: null,
 
-  words: null,
+  terms: null,
   currentPage: 1,
   lastPage: 1,
   total: 0,
+  pagination: false,
+  loading: false,
 })
 
 export const getters = {
-  words(state) {
-    return state.words
+  terms(state) {
+    return state.terms
   },
   currentPage(state) {
     return state.currentPage
@@ -38,6 +40,12 @@ export const getters = {
   },
   total(state) {
     return state.total
+  },
+  pagination(state) {
+    return state.pagination
+  },
+  loading(state) {
+    return state.loading
   },
 
   component(state) {
@@ -55,11 +63,11 @@ export const getters = {
   crossDico(state) {
     return state.crossDico
   },
-  taxonomy(state) {
-    return state.taxonomy
-  },
   orderBy(state) {
     return state.orderBy
+  },
+  translation(state) {
+    return state.translation
   },
   display(state) {
     return state.display
@@ -104,9 +112,9 @@ export const mutations = {
     state.crossDico =
       payload.crossDico !== undefined ? payload.crossDico : state.crossDico
     state.type = payload.type || state.type
-    state.taxonomy = payload.taxonomy || state.taxonomy
     state.orderBy = payload.orderBy || state.orderBy
     state.display = payload.display || state.display
+    state.translation = payload.translation || state.translation
     state.column = payload.column || state.column
 
     state.category =
@@ -120,9 +128,12 @@ export const mutations = {
     state.date = payload.date !== undefined ? payload.date : state.date
     state.tag = payload.tag !== undefined ? payload.tag : state.tag
   },
+  SET_LOADING(state, value) {
+    state.loading = value
+  },
 
   SET_TIMELINE(state, payload) {
-    state.words = payload.words !== undefined ? payload.words : state.words
+    state.terms = payload.terms !== undefined ? payload.terms : state.terms
     state.currentPage =
       payload.currentPage !== undefined
         ? payload.currentPage
@@ -130,6 +141,9 @@ export const mutations = {
     state.lastPage =
       payload.lastPage !== undefined ? payload.lastPage : state.lastPage
     state.total = payload.total !== undefined ? payload.total : state.total
+  },
+  SET_PAGINATION(state, value) {
+    state.pagination = value
   },
 }
 
@@ -145,26 +159,37 @@ export const actions = {
   setTimeline({ commit }, payload) {
     commit('SET_TIMELINE', payload)
   },
+  setPagination({ commit }, value) {
+    commit('SET_PAGINATION', value)
+  },
 
   setFilters({ commit }, payload) {
     commit('SET_FILTERS', payload)
   },
 
-  async getWords({ dispatch, state }) {
+  async getTerms({ dispatch, commit, state }) {
     const query = {}
+    if (state.loading) return
+    // context.rootState.filters.dictionnary;
+    commit('SET_LOADING', true)
     if (!_isEmpty(state.dictionnary)) {
       query.dictionnary = state.dictionnary
     }
-    ;['type', 'category', 'grammar', 'rating', 'highlight', 'level'].forEach(
-      (k) => {
-        if (!_isEmpty(state[k])) {
-          query[k] = state[k].join(',')
-        }
+    const filtersCheckbox = [
+      'type',
+      'category',
+      'grammar',
+      'rating',
+      'highlight',
+      'level',
+      'tag',
+    ]
+    filtersCheckbox.forEach((k) => {
+      if (!_isEmpty(state[k])) {
+        query[k] = state[k].join(',')
       }
-    )
-    // if (!_isEmpty(this.filterTag)) {
-    //   query.tag = this.filterTag.join(',')
-    // }
+    })
+
     if (!_isEmpty(state.date)) {
       query.date = state.date
     }
@@ -175,14 +200,15 @@ export const actions = {
       query.page = state.currentPage
     }
     const response = await this.$axios.$get(
-      `words/filter/?${queryString.stringify(query)}`
+      `terms/filter/?${queryString.stringify(query)}`
     )
 
     dispatch('setTimeline', {
-      words: response.data,
+      terms: response.data,
       currentPage: response.meta.current_page,
       lastPage: response.meta.last_page,
       total: response.meta.total,
     })
+    commit('SET_LOADING', false)
   },
 }
