@@ -1,17 +1,5 @@
 <template>
   <div>
-    <!-- {{ filterType }} {{ filterOrderBy }} {{ filterTaxonomy }}
-        {{ filterDictionnary }} {{ filterDisplay }} {{ filterComponent }}
-        {{ filterCrossDico }} {{ filterVisible }}
-        <div>
-          {{ filterCategory }}
-          {{ filterGrammar }}
-          {{ filterLevel }}
-          {{ filterRating }}
-          {{ filterHighlight }}
-          {{ filterTag }}
-          {{ filterDate }}
-        </div> -->
     <div class="text-subtitle-2 grey lighten-3 pa-3">
       <template v-if="total"> Terms found ({{ total }}) </template>
       <template v-else>
@@ -19,9 +7,12 @@
       </template>
     </div>
     <div :style="`column-count: ${filterColumn}`" style="column-gap: 0">
-      <TermListItem
+      <!-- Short or Long       -->
+      <component
+        :is="`${term.term}-term-list-item`"
         v-for="(term, index) in terms"
         :key="term.id"
+        style="break-inside: avoid-column"
         :term="term"
         :index="index + 1"
       />
@@ -31,11 +22,15 @@
 
 <script>
 import timelineHelper from '@/mixins/timeline'
-import TermListItem from './components/TermListItem'
+import LongTermListItem from '@/components/layout/timeline/list/LongTermListItem'
+import ShortTermListItem from '@/components/layout/timeline/list/ShortTermListItem'
+
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
-    TermListItem,
+    LongTermListItem,
+    ShortTermListItem,
   },
   mixins: [timelineHelper],
   middleware: ['verified'],
@@ -46,9 +41,23 @@ export default {
       page: 1,
     }
   },
-
-  mounted() {
+  computed: {
+    ...mapGetters({
+      dictionnaries: 'config/dictionnaries',
+    }),
+  },
+  async mounted() {
     this.$store.dispatch('bottomBar/setActive', 'timeline')
+    await this.$store.dispatch('config/getDictionnaries')
+    this.setFilters({
+      translation: this.dictionnaries.map((d) => d.slug),
+    })
+  },
+
+  methods: {
+    ...mapActions({
+      setFilters: 'filters/setFilters',
+    }),
   },
 }
 </script>

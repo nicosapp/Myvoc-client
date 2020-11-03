@@ -1,5 +1,5 @@
 <template>
-  <v-btn dark text :disabled="disabled" @click.prevent="click">
+  <v-btn dark text :disabled="_disabled" @click.prevent="validate">
     <slot />
   </v-btn>
 </template>
@@ -12,6 +12,16 @@ export default {
       required: false,
       default: null,
     },
+    valid: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    form: {
+      type: Object,
+      required: false,
+      default: null,
+    },
   },
   data() {
     return {
@@ -19,11 +29,17 @@ export default {
     }
   },
   computed: {
-    disabled() {
-      return !this.term || this.loading
+    _disabled() {
+      return !this.valid || !this.term || this.loading
     },
   },
   methods: {
+    validate() {
+      if (this.form) this.form.validate()
+      if (this.valid) {
+        alert(this.valid)
+      }
+    },
     async click() {
       this.loading = true
       try {

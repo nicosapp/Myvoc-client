@@ -1,15 +1,15 @@
 <template>
   <v-container>
     <!-- LANG & FORM -->
-    <v-card class="px-4 mb-4 elevation-8">
-      <v-row>
-        <v-col cols="6">
-          <Language v-model="currentTerm.langue" :disabled="edit" />
-        </v-col>
-        <v-col cols="6">
-          <Type v-model="currentTerm.forme" />
-        </v-col>
-      </v-row>
+    <v-card class="px-4 pt-4 mb-4 elevation-8">
+      <div class="d-flex">
+        <Language
+          v-model="currentTerm.langue"
+          class="flex-grow-1 mr-2"
+          :disabled="edit"
+        />
+        <Type v-model="currentTerm.forme" class="flex-grow-1 ml-2" />
+      </div>
     </v-card>
     <component
       :is="`type-${typeLowerCase}`"
@@ -91,3 +91,10 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.row,
+.col {
+  padding: 0;
+}
+</style>

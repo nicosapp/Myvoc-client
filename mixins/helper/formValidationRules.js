@@ -27,6 +27,9 @@ export default {
         passwordMatch: (v) =>
           v === this.form.password || 'Password does not match',
       },
+      select: {
+        required: (items, v) => (items && items.includes(v)) || 'Required',
+      },
     }
   },
 }

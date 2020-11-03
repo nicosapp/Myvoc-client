@@ -1,15 +1,9 @@
 <template>
-  <v-row class="mb-4">
-    <v-col cols="4">
-      <Level v-model="currentTerm.level" />
-    </v-col>
-    <v-col cols="4">
-      <Rating v-model="currentTerm.note" />
-    </v-col>
-    <v-col cols="4">
-      <Highlight v-model="currentTerm.imp" />
-    </v-col>
-  </v-row>
+  <div class="d-flex">
+    <Level v-model="currentTerm.level" class="flex-grow-1 mr-2" />
+    <Rating v-model="currentTerm.note" class="flex-grow-1 mx-2" />
+    <Highlight v-model="currentTerm.imp" class="flex-grow-1 ml-2" />
+  </div>
 </template>
 
 <script>

@@ -10,7 +10,7 @@
     <v-card>
       <v-card-title class="pa-0">
         <v-toolbar :dense="dense" dark color="primary"
-          ><v-btn icon dark :disabled="isEmpty" @click.prevent="close">
+          ><v-btn icon dark :disabled="!edit" @click.prevent="close">
             <v-icon>mdi-close</v-icon>
           </v-btn>
           <v-toolbar-title>Term</v-toolbar-title>
@@ -18,7 +18,9 @@
           <DeleteTermButton :term="term" @deleted="close">
             Delete
           </DeleteTermButton>
-          <UpdateTermButton :term="term"> Save </UpdateTermButton>
+          <UpdateTermButton :term="term" :form="form" :valid="valid">
+            Save
+          </UpdateTermButton>
         </v-toolbar>
       </v-card-title>
       <v-card-text class="pa-0">
@@ -33,7 +35,7 @@
 
           <v-tabs-items v-model="tab" class="mt-2">
             <v-tab-item value="attributes">
-              <v-form>
+              <v-form ref="form" v-model="valid" @submit.prevent="add">
                 <EditorAttributes
                   v-model="term"
                   :edit="edit"
@@ -70,8 +72,6 @@
 <script>
 import editHelper from '@/mixins/edit'
 
-import { isEmpty as _isEmpty, get as _get } from 'lodash'
-
 export default {
   mixins: [editHelper],
   props: {
@@ -86,6 +86,7 @@ export default {
       visible: true,
       term: null,
       dense: true,
+      valid: true,
     }
   },
   computed: {
@@ -104,8 +105,8 @@ export default {
     isNative() {
       return this.term.langue === this.native
     },
-    isEmpty() {
-      return _isEmpty(_get(this, 'term.lang', null))
+    form() {
+      return this.$refs.form
     },
   },
   async mounted() {

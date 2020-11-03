@@ -121,46 +121,12 @@
                 class="slider-toolbar"
               >
                 <FilterChip
-                  :outlined="isEmpty(filterCategory)"
-                  @click="openDialog('FilterCategory')"
+                  v-for="(fSecond, index) in filters.secondRow"
+                  :key="`second-${index}`"
+                  :outlined="isEmpty(`filter${fSecond.name}`)"
+                  @click="openDialog(`Filter${fSecond.name}`)"
                 >
-                  Category
-                </FilterChip>
-                <FilterChip
-                  :outlined="isEmpty(filterGrammar)"
-                  @click="openDialog('FilterGrammar')"
-                >
-                  Grammar
-                </FilterChip>
-
-                <FilterChip
-                  :outlined="isEmpty(filterRating)"
-                  @click="openDialog('FilterRating')"
-                  >Rating
-                </FilterChip>
-
-                <FilterChip
-                  :outlined="isEmpty(filterHighlight)"
-                  @click="openDialog('FilterHighlight')"
-                  >Highlight
-                </FilterChip>
-
-                <FilterChip
-                  :outlined="isEmpty(filterLevel)"
-                  @click="openDialog('FilterLevel')"
-                  >Level
-                </FilterChip>
-
-                <FilterChip
-                  :outlined="isEmpty(filterDate)"
-                  @click="openDialog('FilterDate')"
-                  >Date
-                </FilterChip>
-
-                <FilterChip
-                  :outlined="isEmpty(filterTag)"
-                  @click="openDialog('FilterTag')"
-                  >Tag
+                  {{ fSecond.name }}
                 </FilterChip>
               </v-slide-group>
             </div>
@@ -201,6 +167,18 @@ export default {
       extensionBarHeight: 48,
       extensionHeight: 0,
       categories: null,
+      filters: {
+        firstRow: [],
+        secondRow: [
+          { name: 'Category', icon: '' },
+          { name: 'Grammar', icon: '' },
+          { name: 'Rating', icon: '' },
+          { name: 'Highlight', icon: '' },
+          { name: 'Level', icon: '' },
+          { name: 'Date', icon: '' },
+          { name: 'Tag', icon: '' },
+        ],
+      },
     }
   },
   computed: {

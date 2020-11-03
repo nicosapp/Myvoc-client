@@ -1,5 +1,7 @@
 <template>
-  <div class="font-italic font-weight-light">/{{ term.pronon }}/</div>
+  <div v-if="term.pronon" class="font-italic font-weight-light">
+    /{{ term.pronon }}/
+  </div>
 </template>
 
 <script>

@@ -65,17 +65,17 @@ export default {
           icon: 'mdi-shape',
         },
         {
-          text: 'Tags',
-          value: 'tags',
-          route: 'dashboard-tags',
+          text: 'Taxonomies',
+          value: 'taxonomies',
+          route: 'dashboard-taxonomies',
           icon: 'mdi-tag-multiple',
         },
-        {
-          text: 'Grammars',
-          value: 'grammars',
-          route: 'dashboard-grammars',
-          icon: 'mdi-book-open-page-variant',
-        },
+        // {
+        //   text: 'Grammars',
+        //   value: 'grammars',
+        //   route: 'dashboard-grammars',
+        //   icon: 'mdi-book-open-page-variant',
+        // },
       ],
     }
   },

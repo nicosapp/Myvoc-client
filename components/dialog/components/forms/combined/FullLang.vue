@@ -1,8 +1,7 @@
 <template>
-  <v-row class="pa-3">
+  <div class="d-flex">
     <v-text-field
       v-model="currentTerm.pre"
-      hide-details
       label="Pre"
       filled
       class="pre"
@@ -19,13 +18,12 @@
 
     <v-text-field
       v-model="currentTerm.suf"
-      hide-details
       label="Suf"
       filled
       class="suf"
       :style="dynStyle"
     ></v-text-field>
-  </v-row>
+  </div>
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template>
-  <v-dialog v-model="filterVisible" width="300">
-    <v-card>
+  <DialogFilter title="Translation" :width="300">
+    <template v-slot:default>
       <LoadingCircular v-if="!items" height="150px" />
       <v-list v-else dense nav>
         <v-list-item-group
@@ -13,7 +13,7 @@
             v-for="(item, index) in items"
             :key="index"
             ripple
-            :value="item.name"
+            :value="item.slug"
           >
             <template v-slot:default="{ active }">
               <v-list-item-action>
@@ -27,8 +27,13 @@
           </v-list-item>
         </v-list-item-group>
       </v-list>
-    </v-card>
-  </v-dialog>
+    </template>
+
+    <template v-slot:actions>
+      <v-spacer></v-spacer>
+      <v-btn text @click.prevent="model = []">Clear</v-btn>
+    </template>
+  </DialogFilter>
 </template>
 
 <script>
@@ -58,9 +63,11 @@ export default {
       this.setFilters({ translation })
     },
   },
-  mounted() {
-    if (!this.items) this.$store.dispatch('config/getDictionnaries')
-    this.model = this.filterTranslation
+  async mounted() {
+    if (!this.items) {
+      await this.$store.dispatch('config/getDictionnaries')
+    }
+    this.model = this.items.map((d) => d.slug)
   },
 }
 </script>

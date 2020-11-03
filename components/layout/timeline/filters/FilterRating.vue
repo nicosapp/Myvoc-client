@@ -1,7 +1,8 @@
 <template>
-  <v-dialog v-model="filterVisible" width="300">
-    <v-card>
-      <v-list dense nav>
+  <DialogFilter title="Rating">
+    <template v-slot:default>
+      <LoadingCircular v-if="!items" height="200px" />
+      <v-list v-else dense nav>
         <v-list-item-group
           v-model="model"
           color="primary"
@@ -26,8 +27,13 @@
           </v-list-item>
         </v-list-item-group>
       </v-list>
-    </v-card>
-  </v-dialog>
+    </template>
+
+    <template v-slot:actions>
+      <v-spacer></v-spacer>
+      <v-btn text @click.prevent="model = []">Clear</v-btn>
+    </template>
+  </DialogFilter>
 </template>
 
 <script>

@@ -6,7 +6,7 @@
         class="term-item grey--text text--darken-3 cursor-pointer"
         @dblclick.prevent="click"
       >
-        {{ term || 'Undefined' | fullTerm }}
+        {{ term.def | longTermTruncated }}
       </div>
     </div>
     <v-divider></v-divider>
@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     click() {
-      this.pushDialog({ visible: true, id: this.term.id })
+      this.pushDialog({ edit: true, id: this.term.id })
     },
   },
 }

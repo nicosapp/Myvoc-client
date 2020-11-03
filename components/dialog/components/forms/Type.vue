@@ -2,11 +2,12 @@
   <v-select
     v-model="selected"
     :items="items"
-    label="Forme"
+    label="Type"
     filled
-    hide-details
     item-value="name"
     item-text="name"
+    :disabled="!items"
+    :rules="[select.required(items, selected)]"
     return-object
   >
     <template v-slot:selection="data">
@@ -22,7 +23,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import validationHelper from '@/mixins/helper/formValidationRules'
 export default {
+  mixins: [validationHelper],
   props: {
     value: {
       required: false,

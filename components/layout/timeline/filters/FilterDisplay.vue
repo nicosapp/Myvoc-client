@@ -1,18 +1,24 @@
 <template>
-  <v-dialog v-model="filterVisible" width="300">
-    <v-card>
-      <v-list dense>
-        <v-list-item-group color="primary" multiple>
+  <DialogFilter title="Display">
+    <template v-slot:default>
+      <LoadingCircular v-if="!items" height="200px" />
+      <v-list v-else dense>
+        <v-list-item-group
+          v-model="model"
+          color="primary"
+          multiple
+          active-class=""
+        >
           <template v-for="(item, index) in items">
-            <v-list-item v-if="!item.divider" :key="`display-${index}`" ripple>
+            <v-list-item
+              v-if="!item.divider"
+              :key="`display-${index}`"
+              ripple
+              :value="item.slug"
+            >
               <template v-slot:default="{ active }">
                 <v-list-item-action>
-                  <v-checkbox
-                    v-model="checkbox[index]"
-                    :input-value="active"
-                    :true-value="item.name"
-                    :false-value="null"
-                  ></v-checkbox>
+                  <v-checkbox :input-value="active"></v-checkbox>
                 </v-list-item-action>
                 <v-list-item-content>
                   {{ item.name | capitalize }}
@@ -23,8 +29,13 @@
           </template>
         </v-list-item-group>
       </v-list>
-    </v-card>
-  </v-dialog>
+    </template>
+
+    <template v-slot:actions>
+      <v-spacer></v-spacer>
+      <v-btn text @click.prevent="model = []">Clear</v-btn>
+    </template>
+  </DialogFilter>
 </template>
 
 <script>
@@ -34,32 +45,32 @@ export default {
   data() {
     return {
       items: [
-        { name: 'Cross Dico' },
-        { name: 'Term' },
-        { name: 'Native' },
+        { name: 'Cross Dico', slug: 'cross_dico' },
+        { name: 'Term', slug: 'term' },
+        { name: 'Native', slug: 'native' },
+        { name: 'Translation', slug: 'translation' },
         { divider: true },
-        { name: 'Definition' },
-        { name: 'Web Def' },
-        { name: 'Conjugation' },
+        { name: 'Definition', slug: 'definition' },
+        { name: 'Example', slug: 'example' },
         { divider: true },
-        { name: 'note' },
-        { name: 'Highlighted' },
+        { name: 'note', slug: 'note' },
+        { name: 'Highlight', slug: 'highlight' },
         { divider: true },
-        { name: 'Example' },
-        { name: 'Traduction' },
-        { name: 'Comment' },
+        { name: 'Example', slug: 'example_example' },
+        { name: 'Translation', slug: 'example_translation' },
+        { name: 'Comment', slug: 'example_comment' },
       ],
-      checkbox: [],
+      model: [],
     }
   },
   watch: {
-    checkbox: {
-      deep: true,
-      handler(values) {
-        const display = values.filter((v) => v).join(',')
-        this.setFilters({ display })
-      },
+    model(newModel) {
+      const display = newModel.filter((v) => v)
+      this.setFilters({ display })
     },
+  },
+  mounted() {
+    this.model = this.filterDisplay
   },
 }
 </script>

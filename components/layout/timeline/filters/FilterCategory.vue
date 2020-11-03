@@ -1,18 +1,8 @@
 <template>
-  <v-dialog v-model="filterVisible" width="400">
-    <v-card class="pt-3">
-      <div class="d-flex justify-center">
-        <v-btn
-          color="primary"
-          light
-          small
-          depressed
-          :disabled="model === null"
-          @click.prevent="model = null"
-          ><v-icon class="mr-2">mdi-close-circle-outline</v-icon>clear
-        </v-btn>
-      </div>
-      <v-list nav dense light>
+  <DialogFilter title="Category" :width="400">
+    <template v-slot:default>
+      <LoadingCircular v-if="!items" height="200px" />
+      <v-list v-else nav dense light>
         <v-list-item-group
           v-model="model"
           multiple
@@ -27,8 +17,13 @@
           />
         </v-list-item-group>
       </v-list>
-    </v-card>
-  </v-dialog>
+    </template>
+
+    <template v-slot:actions>
+      <v-spacer></v-spacer>
+      <v-btn text @click.prevent="model = null">Clear</v-btn>
+    </template>
+  </DialogFilter>
 </template>
 
 <script>

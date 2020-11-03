@@ -1,20 +1,12 @@
 <template>
   <div>
-    <v-card class="px-4 elevation-8 mb-4">
+    <v-card class="px-4 pt-4 elevation-8 mb-4">
       <FullLang v-model="currentTerm" />
-      <v-row>
-        <v-col>
-          <Native v-model="currentTerm.fra" />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <Pronunciation v-model="currentTerm.pronon" />
-        </v-col>
-      </v-row>
+      <Native v-model="currentTerm.fra" />
+      <Pronunciation v-model="currentTerm.pronon" />
     </v-card>
 
-    <v-card class="px-4 elevation-8 mb-4">
+    <v-card class="px-4 pt-4 elevation-8 mb-4">
       <LevelRatingHighlight v-model="currentTerm" />
       <Grammar v-model="currentTerm.grammars" :term="currentTerm" />
       <Category v-model="currentTerm.categories" :term="currentTerm" />
@@ -30,8 +22,8 @@
         :to="native"
         label="Translation"
       />
-      <Synonym v-model="currentTerm.synomyms" :term="currentTerm" />
-      <ExampleLink v-model="currentTerm.synomyms" :term="currentTerm" />
+      <Synonym v-model="currentTerm.synonyms" :term="currentTerm" />
+      <ExampleLink v-model="currentTerm.examples" :term="currentTerm" />
     </v-card>
     <v-row>
       <v-col>

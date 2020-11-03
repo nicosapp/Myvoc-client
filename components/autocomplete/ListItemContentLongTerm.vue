@@ -19,12 +19,5 @@ export default {
       required: true,
     },
   },
-  computed: {
-    example() {
-      return this.item.def.length < 400
-        ? this.item.def
-        : this.item.def.substring(0, 400) + '...'
-    },
-  },
 }
 </script>

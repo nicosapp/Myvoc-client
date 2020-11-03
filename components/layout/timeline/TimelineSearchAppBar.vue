@@ -42,6 +42,7 @@
 import editHelper from '@/mixins/edit'
 import { debounce as _debounce } from 'lodash'
 import queryString from 'query-string'
+import { mapGetters } from 'vuex'
 
 export default {
   mixins: [editHelper],
@@ -53,6 +54,11 @@ export default {
       items: [],
       loading: false,
     }
+  },
+  computed: {
+    ...mapGetters({
+      dictionnary: 'filters/dictionnary',
+    }),
   },
   watch: {
     search: {
@@ -66,9 +72,12 @@ export default {
       if (this.loading) return
       this.loading = true
       const query = {}
+      query.langue = this.dictionnary
+      query.column = 'lang'
+      // query.forme = ''
       query.search = value
       const response = await self.$axios.$get(
-        `term/autocomplete?${queryString.stringify(query)}`
+        `terms/autocomplete?${queryString.stringify(query)}`
       )
       // console.log(response.data)
       if (response) {

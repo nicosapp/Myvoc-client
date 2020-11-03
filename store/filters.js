@@ -1,12 +1,12 @@
 export const state = () => ({
   component: null,
   visible: false,
-  type: ['term'],
+  type: ['word'],
   dictionnary: 'fra',
   crossDico: 0,
-  taxonomy: 'category',
+  translation: [],
   orderBy: 'alphabetical',
-  display: '',
+  display: ['term', 'translation'],
   column: 2,
 
   category: null,
@@ -33,6 +33,9 @@ export const getters = {
   },
   crossDico(state) {
     return state.crossDico
+  },
+  translation(state) {
+    return state.translation
   },
   orderBy(state) {
     return state.orderBy
@@ -80,7 +83,7 @@ export const mutations = {
     state.crossDico =
       payload.crossDico !== undefined ? payload.crossDico : state.crossDico
     state.type = payload.type || state.type
-    state.taxonomy = payload.taxonomy || state.taxonomy
+    state.translation = payload.translation || state.translation
     state.orderBy = payload.orderBy || state.orderBy
     state.display = payload.display || state.display
     state.column = payload.column || state.column

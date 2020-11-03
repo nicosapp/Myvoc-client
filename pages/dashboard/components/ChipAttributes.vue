@@ -9,7 +9,7 @@
             name="name"
             :label="label"
             clearable
-            :rules="[required]"
+            :rules="[rules.required, rules.min(2, search)]"
             :loading="loading"
             :disabled="loading"
             :error-messages="validation.name"
@@ -53,7 +53,9 @@
 
 <script>
 import { debounce as _debounce } from 'lodash'
+import validationRules from '@/mixins/helper/formValidationRules'
 export default {
+  mixins: [validationRules],
   props: {
     label: {
       type: String,
@@ -67,7 +69,6 @@ export default {
   data() {
     return {
       valid: true,
-      required: (v) => !!v || 'Required.',
       search: null,
       items: null,
       filtered: null,
@@ -109,6 +110,7 @@ export default {
 
     add() {
       this.update('post', 'added', {
+        taxnomy: this.taxnomy,
         name: this.search,
       })
     },

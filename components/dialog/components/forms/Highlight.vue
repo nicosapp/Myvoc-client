@@ -1,31 +1,55 @@
 <template>
-  <v-text-field
-    v-model="currentValue"
-    type="number"
+  <v-select
+    v-model="selected"
+    :items="items"
     label="Highlight"
     filled
-    hide-details
-  ></v-text-field>
+    item-text="name"
+    item-value="name"
+    :disabled="!items"
+  ></v-select>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   props: {
     value: {
       required: false,
-      default: null,
-      type: [Number, String],
+      default: 'fra',
+      type: [String, Number],
+    },
+    disabled: {
+      required: false,
+      default: true,
+      type: Boolean,
     },
   },
+
   data() {
     return {
-      currentValue: this.value,
+      selected: {},
     }
   },
+
+  computed: {
+    ...mapGetters({
+      items: 'config/highlights',
+    }),
+  },
+
   watch: {
-    currentValue(newValue) {
-      this.$emit('input', newValue)
+    selected(newValue) {
+      if (newValue) this.$emit('input', newValue)
     },
+    items(items) {
+      this.selected = this.items.find((i) => i.name === this.value)
+    },
+  },
+  mounted() {
+    if (!this.items) {
+      this.$store.dispatch('config/getHighlights')
+    }
   },
 }
 </script>

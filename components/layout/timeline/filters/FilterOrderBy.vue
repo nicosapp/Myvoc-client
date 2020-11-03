@@ -1,7 +1,8 @@
 <template>
-  <v-dialog v-model="filterVisible" width="200">
-    <v-card>
-      <v-list nav dense light>
+  <DialogFilter title="Order By" :width="200">
+    <template v-slot:default>
+      <LoadingCircular v-if="!items" height="200px" />
+      <v-list v-else nav dense light>
         <v-list-item-group v-model="model" color="primary">
           <v-list-item
             v-for="(item, i) in items"
@@ -14,8 +15,8 @@
           </v-list-item>
         </v-list-item-group>
       </v-list>
-    </v-card>
-  </v-dialog>
+    </template>
+  </DialogFilter>
 </template>
 
 <script>

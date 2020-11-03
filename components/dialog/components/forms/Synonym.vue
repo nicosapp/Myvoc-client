@@ -33,7 +33,7 @@ export default {
   },
   data() {
     return {
-      model: this.value.filter((w) => w.langue === this.to),
+      model: this.value,
     }
   },
 

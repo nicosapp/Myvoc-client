@@ -4,9 +4,9 @@
       <template v-slot:activator="{ on, attrs }">
         <v-text-field
           v-model="search"
-          hide-details
           filled
           v-bind="attrs"
+          :rules="[rules.required, rules.min(2, search)]"
           label="Term"
           v-on="on"
           @input="(v) => $emit('input', v)"
@@ -29,11 +29,12 @@
 </template>
 
 <script>
+import validationHelper from '@/mixins/helper/formValidationRules'
 import editHelper from '@/mixins/edit'
 import { debounce as _debounce } from 'lodash'
 import queryString from 'query-string'
 export default {
-  mixins: [editHelper],
+  mixins: [editHelper, validationHelper],
   props: {
     value: {
       required: false,

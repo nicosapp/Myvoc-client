@@ -1,6 +1,6 @@
 <template>
   <div class="relative pb-4">
-    <v-menu left offset-y close-on-click :max-height="200" max-width="100%">
+    <v-menu left offset-y close-on-click :max-height="200" nudge-width>
       <template v-slot:activator="{ on, attrs }">
         <v-text-field
           v-model="search"
@@ -10,7 +10,6 @@
           :label="label"
           :loading="loading"
           clearable
-          nudge-width
           v-on="on"
         >
         </v-text-field>
