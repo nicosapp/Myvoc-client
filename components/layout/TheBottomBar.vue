@@ -1,6 +1,10 @@
 <template>
   <div>
-    <TermEditDialog v-for="(d, index) in dialogs" :key="index" :index="index" />
+    <TermEditDialog
+      v-for="(d, i) in dialogs"
+      :key="`dialog-${d.termId}`"
+      :index="i"
+    />
     <v-bottom-navigation
       v-if="visible"
       v-model="active"
@@ -15,7 +19,7 @@
         <v-icon>mdi-format-list-text</v-icon>
       </v-btn>
 
-      <v-btn value="actions" @click="pushRoute('dashboard', 'actions')">
+      <v-btn value="actions" @click="timelineActions">
         <div>Actions</div>
         <v-icon>mdi-playlist-edit</v-icon>
       </v-btn>
@@ -41,8 +45,10 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import bottomSheetHelper from '@/mixins/navigation/bottomSheet'
 
 export default {
+  mixins: [bottomSheetHelper],
   data() {
     return {
       value: 'home',
@@ -52,10 +58,9 @@ export default {
     ...mapGetters({
       activeValue: 'bottomBar/active',
       dialogs: 'edit/dialogs',
+      terms: 'timeline/terms',
     }),
-    isEditPage() {
-      return this.$route.path.indexOf('edit') > 0
-    },
+
     visible() {
       return (
         this.$auth.loggedIn && this.$auth.user.is_verified && !this.isEditPage
@@ -68,6 +73,12 @@ export default {
       set(activeValue) {
         this.setActive(activeValue)
       },
+    },
+    isTimelinePage() {
+      return this.$route.path.indexOf('timeline') > 0
+    },
+    isEditPage() {
+      return this.$route.path.indexOf('edit') > 0
     },
   },
 
@@ -83,16 +94,18 @@ export default {
         name: route,
       })
     },
-
+    timelineActions() {
+      if (!this.isTimelinePage || this.terms === null) return
+      this.setBottomSheet({
+        visible: true,
+        component: 'TimelineBottomSheetTermActions',
+      })
+    },
     async createTerm() {
       try {
         const term = await this.$axios.$post('terms')
         this.setActive('create')
-        this.pushDialog({ id: term.data.id, edit: false })
-        // this.$router.push({
-        //   name: 'terms-id-edit',
-        //   params: { id: term.data.id },
-        // })
+        this.pushDialog({ termId: term.data.id, edit: false })
       } catch (e) {}
     },
   },

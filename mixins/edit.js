@@ -8,7 +8,7 @@ export default {
   methods: {
     ...mapActions({
       pushDialog: 'edit/pushDialog',
-      removeDialog: 'edit/removeDialog',
+      destroyDialog: 'edit/destroyDialog',
       updateDialog: 'edit/updateDialog',
     }),
   },

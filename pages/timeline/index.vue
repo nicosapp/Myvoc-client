@@ -35,7 +35,11 @@ export default {
   mixins: [timelineHelper],
   middleware: ['verified'],
   layout: 'timeline',
-
+  async asyncData({ app, store }) {
+    await store.dispatch('config/getDictionnaries')
+    store.dispatch('config/getRatings')
+    store.dispatch('config/getHighlights')
+  },
   data() {
     return {
       page: 1,
@@ -46,9 +50,8 @@ export default {
       dictionnaries: 'config/dictionnaries',
     }),
   },
-  async mounted() {
+  mounted() {
     this.$store.dispatch('bottomBar/setActive', 'timeline')
-    await this.$store.dispatch('config/getDictionnaries')
     this.setFilters({
       translation: this.dictionnaries.map((d) => d.slug),
     })

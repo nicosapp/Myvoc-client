@@ -1,3 +1,4 @@
+@import 'palette';
 @import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
 
@@ -16,9 +17,27 @@ a {
     content: none !important;
   }
 }
-
+.v-app-bar {
+  background-color: var(--color-appbar) !important;
+}
 .cursor-pointer {
   cursor: pointer;
+}
+
+.term-list-item {
+  @for $i from 1 through 5 {
+    &.rating-#{$i} {
+      background-color: hsl(hue($color-rating), 100%, 100% - $i * 10%);
+    }
+  }
+  @for $i from 1 through 3 {
+    &.highlight-#{$i} {
+      background-color: hsl(hue($color-highlight), 100%, 100% - $i * 20%);
+    }
+  }
+  &.cross-dico {
+    background-color: $color-crossdico;
+  }
 }
 // .v-application {
 //   font-family: 'Patrick Hand', cursive !important;

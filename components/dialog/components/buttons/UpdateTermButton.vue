@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   props: {
     term: {
@@ -34,6 +35,9 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+      updateTermTimeline: 'timeline/updateTermItem',
+    }),
     validate() {
       if (this.form) this.form.validate()
       if (this.valid) {
@@ -44,6 +48,7 @@ export default {
       this.loading = true
       try {
         await this.$axios.$patch(`terms/${this.term.id}`, this.term)
+        this.updateTermTimeline(this.term)
         this.$notifier.success({ message: 'Term updated' })
       } catch (e) {
         this.$notifier.error500()

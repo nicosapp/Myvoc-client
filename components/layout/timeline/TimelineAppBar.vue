@@ -1,11 +1,9 @@
 <template>
   <div>
     <v-app-bar
-      dark
       fixed
       app
       class="timeline-app-bar"
-      color="grey lighten-4"
       hide-on-scroll
       :extension-height="extensionHeight"
     >
@@ -48,10 +46,14 @@
       <slot />
 
       <template v-slot:extension>
-        <div style="overflow: hidden" class="mx-n8 mx-sm-0">
-          <div v-if="extensionHeight > 50">
+        <div
+          style="overflow: hidden"
+          class="extension-container mx-n2"
+          :class="[{ open: filtersOpened }]"
+        >
+          <div v-if="filtersOpened">
             <div
-              class="d-flex align-center rounded-pill"
+              class="d-flex align-center"
               :style="`height:${extensionBarHeight}px;`"
               style="overflow: hidden"
             >
@@ -85,7 +87,7 @@
                   >Type</FilterChip
                 >
                 <FilterChip
-                  :outlined="false"
+                  :outlined="isEmpty(filterType)"
                   @click="openDialog('FilterOrderBy')"
                   >Order By</FilterChip
                 >
@@ -185,6 +187,9 @@ export default {
     isNative() {
       return this.$auth.user.native === this.filterDictionnary
     },
+    filtersOpened() {
+      return this.extensionHeight > 50
+    },
   },
   watch: {
     pagination(newValue) {
@@ -206,8 +211,9 @@ export default {
         visible: true,
       })
     },
+
     toggleFilterBar() {
-      if (this.extensionHeight > 50) {
+      if (this.filtersOpened) {
         this.extensionHeight -= this.extensionBarHeight * 2
       } else {
         this.extensionHeight += this.extensionBarHeight * 2
@@ -238,12 +244,43 @@ export default {
 }
 </script>
 
-<style>
-.slider-toolbar .v-slide-group__wrapper {
-  border-radius: 100px;
-}
-.slider-toolbar .v-slide-group__next .v-icon,
-.slider-toolbar .v-slide-group__prev .v-icon {
-  color: var(--v-primary-base) !important;
+<style lang="scss">
+.timeline-app-bar {
+  .slider-toolbar {
+    .v-slide-group__wrapper {
+      .v-slide-group__next .v-icon,
+      .v-slide-group__prev .v-icon {
+        color: var(--v-color-primary) !important;
+      }
+    }
+  }
+  .extension-container.open {
+    &::before,
+    &::after {
+      content: '';
+      width: 20px;
+      height: 100%;
+      position: absolute;
+      z-index: 1;
+    }
+    &::before {
+      left: 0;
+      top: 0;
+      background: linear-gradient(
+        to left,
+        transparent,
+        var(--color-appbar) 10px
+      );
+    }
+    &::after {
+      right: 0;
+      top: 0;
+      background: linear-gradient(
+        to right,
+        transparent,
+        var(--color-appbar) 10px
+      );
+    }
+  }
 }
 </style>

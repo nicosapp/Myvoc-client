@@ -8,6 +8,7 @@ export const state = () => ({
   total: 0,
   pagination: false,
   loading: false,
+  rating: false,
 })
 
 export const getters = {
@@ -29,6 +30,9 @@ export const getters = {
   loading(state) {
     return state.loading
   },
+  rating(state) {
+    return state.rating
+  },
 }
 
 export const mutations = {
@@ -49,6 +53,15 @@ export const mutations = {
   SET_PAGINATION(state, value) {
     state.pagination = value
   },
+  SET_RATING(state, value) {
+    state.rating = value
+  },
+  UPDATE_TERM(state, term) {
+    state.terms = state.terms.map((t) => {
+      if (t.id === term.id) return term
+      return t
+    })
+  },
 }
 
 export const actions = {
@@ -57,6 +70,14 @@ export const actions = {
   },
   setPagination({ commit }, value) {
     commit('SET_PAGINATION', value)
+  },
+
+  setRating({ commit }, value) {
+    commit('SET_RATING', value)
+  },
+
+  updateTermItem({ commit }, term) {
+    commit('UPDATE_TERM', term)
   },
 
   async getTerms({ dispatch, commit, state, rootState }) {

@@ -26,6 +26,7 @@ export default {
       total: 'timeline/total',
       pagination: 'timeline/pagination',
       loading: 'timeline/loading',
+      ratingValue: 'timeline/rating',
     }),
     filterVisible: {
       get() {
@@ -51,6 +52,14 @@ export default {
         this.setTimeline({ currentPage: newValue })
       },
     },
+    rating: {
+      get() {
+        return this.ratingValue
+      },
+      set(newValue) {
+        this.setRating(newValue)
+      },
+    },
   },
 
   methods: {
@@ -60,6 +69,7 @@ export default {
       setFilters: 'filters/setFilters',
       setTimeline: 'timeline/setTimeline',
       setPagination: 'timeline/setPagination',
+      setRating: 'timeline/setRating',
       getTerms: 'timeline/getTerms',
     }),
   },

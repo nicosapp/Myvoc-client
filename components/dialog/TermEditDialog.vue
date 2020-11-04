@@ -23,6 +23,7 @@
           </UpdateTermButton>
         </v-toolbar>
       </v-card-title>
+
       <v-card-text class="pa-0">
         <LoadingCircular v-if="!term" height="300px" />
 
@@ -62,6 +63,7 @@
         :style="[dense ? { height: '48px' } : {}]"
         class="grey lighten-3 elevation-1"
       >
+        <NavigationButtons v-if="term" :term="term" :dialog-index="index" />
         <v-spacer></v-spacer>
         <v-btn text color="primary" @click.prevent="add">New</v-btn>
       </v-card-actions>
@@ -97,7 +99,7 @@ export default {
       return this.dialog.edit
     },
     termId() {
-      return this.dialog.id
+      return this.dialog.termId
     },
     native() {
       return this.$auth.user.native
@@ -110,22 +112,25 @@ export default {
     },
   },
   async mounted() {
-    try {
-      const response = await this.$axios.$get(`terms/${this.termId}`)
-      this.term = response.data
-    } catch (e) {
-      this.$notifier.error500()
-    }
+    await this.getTerm()
   },
   methods: {
+    async getTerm() {
+      try {
+        const response = await this.$axios.$get(`terms/${this.termId}`)
+        this.term = response.data
+      } catch (e) {
+        this.$notifier.error500()
+      }
+    },
     async add() {
       try {
         const term = await this.$axios.$post('terms')
-        this.pushDialog({ id: term.data.id, edit: false })
+        this.pushDialog({ termId: term.data.id, edit: false })
       } catch (e) {}
     },
     close() {
-      this.removeDialog(this.index)
+      this.destroyDialog(this.index)
     },
   },
 }

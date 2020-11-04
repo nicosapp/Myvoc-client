@@ -7,6 +7,7 @@
     item-text="name"
     item-value="name"
     :disabled="!items"
+    return-object
   ></v-select>
 </template>
 
@@ -16,7 +17,7 @@ export default {
   props: {
     value: {
       required: false,
-      default: 'fra',
+      default: 0,
       type: [String, Number],
     },
     disabled: {
@@ -40,16 +41,16 @@ export default {
 
   watch: {
     selected(newValue) {
-      if (newValue) this.$emit('input', newValue)
-    },
-    items(items) {
-      this.selected = this.items.find((i) => i.name === this.value)
+      if (newValue) this.$emit('input', newValue.name)
     },
   },
-  mounted() {
+  async mounted() {
     if (!this.items) {
-      this.$store.dispatch('config/getRatings')
+      await this.$store.dispatch('config/getRatings')
     }
+    this.selected = this.items.find(
+      (i) => parseInt(i.name) === parseInt(this.value)
+    )
   },
 }
 </script>

@@ -121,7 +121,6 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      options: { customProperties: true },
       dark: false,
       themes: {
         dark: {
@@ -137,6 +136,7 @@ export default {
           primary: '#03A678',
           primaryText: '#ffffff',
           secondary: colors.grey.darken1,
+          rating: colors.grey,
         },
       },
     },

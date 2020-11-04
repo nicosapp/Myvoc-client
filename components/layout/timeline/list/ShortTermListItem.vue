@@ -1,24 +1,28 @@
 <template>
-  <div>
-    <div v-if="show('term')" class="term-list-item px-2 d-flex align-baseline">
+  <div
+    class="term-list-item d-flex flex-column justify-center"
+    :class="[backgroundColorClass]"
+  >
+    <div v-if="show('term')" class="px-2 d-flex align-baseline first-line">
       <span v-if="index" class="index mr-2">{{ index }}.</span>
       <div
         class="term-item grey--text text--darken-3 cursor-pointer"
-        @dblclick.prevent="click"
+        @dblclick.prevent.stop="edit"
       >
         {{ term || 'Undefined' | fullTerm }}
       </div>
       <div v-if="show('native')">{{ term.fra }}</div>
       <v-spacer></v-spacer>
-      <div style="width: 60%">
+      <div v-if="show('translation')" style="width: 60%">
         <ViewTranslation
-          v-if="show('translation')"
           :dictionnaries="filterTranslation"
           :with-label="false"
           :list="true"
           :term="term"
         />
       </div>
+
+      <RatingButtons :term="term" :rating="rating" />
     </div>
     <TermListItemDefinition
       v-if="show('definition')"
@@ -26,12 +30,12 @@
       :term="term"
     />
     <TermListItemExample v-if="show('example')" class="px-2" :term="term" />
-    <v-divider></v-divider>
   </div>
 </template>
 
 <script>
 import editHelper from '@/mixins/edit'
+
 import { mapGetters } from 'vuex'
 export default {
   mixins: [editHelper],
@@ -50,11 +54,18 @@ export default {
     ...mapGetters({
       filterTranslation: 'filters/translation',
       filterDisplay: 'filters/display',
+      rating: 'timeline/rating',
     }),
+    backgroundColorClass() {
+      if (this.term.cross_dico) return 'cross-dico'
+      else if (this.term.imp > 0) return `highlight-${this.term.imp}`
+      else if (this.term.note > 0) return `rating-${this.term.note}`
+      return ''
+    },
   },
   methods: {
-    click() {
-      this.pushDialog({ edit: true, id: this.term.id })
+    edit() {
+      this.pushDialog({ edit: true, termId: this.term.id })
     },
     show(prop) {
       return this.filterDisplay.includes(prop)
@@ -66,8 +77,12 @@ export default {
 <style lang="scss" scoped>
 .term-list-item {
   font-size: 0.8rem;
-  padding-top: 1px;
-  padding-bottom: 1px;
+  position: relative;
+  min-height: 1.5rem;
+  border-bottom: 1px solid lightgrey;
+  .first-line {
+    padding: 1px 0;
+  }
   .term-item {
     font-weight: 700;
   }

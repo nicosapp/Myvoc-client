@@ -31,6 +31,7 @@
       </v-container>
     </v-main>
     <TheBottomBar />
+    <TheBottomSheet />
     <TheFixedComponents />
   </v-app>
 </template>
