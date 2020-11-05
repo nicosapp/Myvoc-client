@@ -45,6 +45,8 @@ export default {
   data() {
     return {
       items: [
+        { name: 'Open dialog on Preview', slug: 'dialog_preview' },
+        { divider: true },
         { name: 'Cross Dico', slug: 'cross_dico' },
         { name: 'Term', slug: 'term' },
         { name: 'Native', slug: 'native' },

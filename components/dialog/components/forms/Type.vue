@@ -49,14 +49,12 @@ export default {
         this.$emit('input', newValue.name)
       }
     },
-    items(items) {
-      this.selected = this.items.find((i) => i.name === this.value)
-    },
   },
-  mounted() {
+  async mounted() {
     if (!this.items) {
-      this.$store.dispatch('config/getTypes')
+      await this.$store.dispatch('config/getTypes')
     }
+    this.selected = this.items.find((i) => i.name === this.value)
   },
 }
 </script>

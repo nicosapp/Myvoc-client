@@ -63,7 +63,7 @@ export default {
       name: 'MyVoc',
       short_name: 'MyVoc',
       lang: 'en',
-      display: 'fullscreen',
+      display: 'standalone',
       background_color: '#03A678',
     },
   },

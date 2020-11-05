@@ -10,9 +10,11 @@
             nativeName
           }}</span>
         </div>
-        <div v-for="(dictionnary, index) in orderedDictionnaries" :key="index">
+        <div v-for="d in orderedDictionnaries" :key="d.id">
           <DictionnaryItem
-            :dictionnary="dictionnary"
+            :ref="`dictionnary-${d.id}`"
+            :dictionnary="d"
+            :validation="validation"
             @update="edit"
             @delete="remove"
           >
@@ -21,20 +23,23 @@
         <v-form ref="form" v-model="valid" @submit.prevent="add">
           <div class="d-flex align-baseline mb-3" style="width: 100%">
             <v-text-field
-              v-model="order"
+              v-model="dictionnary.order"
               class=""
               style="max-width: 20%"
               filled
               label="Order"
             ></v-text-field>
             <v-text-field
-              v-model="name"
-              :rules="[rules.required, rules.min(3, name)]"
+              v-model="dictionnary.name"
+              :rules="[rules.required, rules.min(3, dictionnary.name)]"
               class="flex-grow-1 mx-3"
               filled
               label="Name"
+              :error-messages="validationError"
             ></v-text-field>
-            <div><ColorPickerButton v-model="color" class="mx-2" /></div>
+            <div>
+              <ColorPickerButton v-model="dictionnary.color" class="mx-2" />
+            </div>
             <v-btn
               icon
               type="submit"
@@ -71,9 +76,12 @@ export default {
       loading: false,
       dictionnaries: null,
       editable: [],
-      order: 0,
-      name: '',
-      color: '#ffffff',
+      dictionnary: {
+        order: 0,
+        name: '',
+        color: '#ffffff',
+      },
+      validation: {},
     }
   },
   computed: {
@@ -89,6 +97,10 @@ export default {
 
     disabled() {
       return !this.valid || this.loading
+    },
+    validationError() {
+      if (this.validation.id !== 0) return ''
+      return this.validation.error[0] || ''
     },
   },
   async mounted() {
@@ -115,12 +127,7 @@ export default {
     },
 
     add() {
-      const dictionnary = {
-        order: this.order,
-        name: this.name,
-        color: this.color,
-      }
-      this.update('post', 'added', dictionnary)
+      this.update('post', 'added', this.dictionnary)
     },
 
     edit(dictionnary) {
@@ -128,15 +135,16 @@ export default {
     },
 
     async update(method, action, dictionnary) {
+      this.validation = {}
       this.loading = true
       try {
         let response = null
         switch (method) {
           case 'post':
             response = await this.$axios.$post(`dictionnaries`, dictionnary)
-            this.name = ''
-            this.order = 0
-            this.color = ''
+            this.dictionnary.name = ''
+            this.dictionnary.order = 0
+            this.dictionnary.color = '#ffffff'
             this.dictionnaries.push(response.data)
             break
           case 'patch':
@@ -156,7 +164,15 @@ export default {
         }
 
         this.$notifier.success({ message: `Dictionnary ${action}!` })
-      } catch (e) {}
+      } catch (e) {
+        if (e.response && e.response.status === 422) {
+          const id = dictionnary.id || 0
+          this.validation = {
+            id,
+            error: Object.values(e.response.data.errors),
+          }
+        }
+      }
       this.loading = false
     },
   },

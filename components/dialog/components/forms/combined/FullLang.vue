@@ -68,7 +68,7 @@ export default {
 }
 .pre,
 .suf {
-  max-width: 10%;
+  max-width: 20%;
 }
 .pre.v-input--is-focused,
 .suf.v-input--is-focused {

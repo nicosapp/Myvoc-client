@@ -17,6 +17,9 @@ a {
     content: none !important;
   }
 }
+.v-tabs-bar--is-mobile .v-slide-group__prev--disabled {
+  display: none !important;
+}
 .v-app-bar {
   background-color: var(--color-appbar) !important;
 }

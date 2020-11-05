@@ -55,6 +55,8 @@ export default {
     this.setFilters({
       translation: this.dictionnaries.map((d) => d.slug),
     })
+    const column = this.$vuetify.breakpoint.mobile ? 1 : 2
+    this.setFilters({ column })
   },
 
   methods: {

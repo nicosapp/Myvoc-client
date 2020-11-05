@@ -32,7 +32,7 @@
         </div>
       </v-form>
 
-      <LoadingCircular v-if="!dictionnaries" height="200px" />
+      <LoadingCircular v-if="!items" height="200px" />
       <div v-else>
         <div class="mb-3 d-flex justify-center">
           <v-btn

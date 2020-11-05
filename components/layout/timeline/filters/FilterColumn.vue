@@ -33,8 +33,7 @@ export default {
     },
   },
   mounted() {
-    this.model = this.$vuetify.breakpoint.mobile ? 1 : 2
-    this.setFilters({ column: this.model })
+    this.model = this.filterColumn
   },
 }
 </script>

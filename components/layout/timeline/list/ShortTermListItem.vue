@@ -7,7 +7,7 @@
       <span v-if="index" class="index mr-2">{{ index }}.</span>
       <div
         class="term-item grey--text text--darken-3 cursor-pointer"
-        @dblclick.prevent.stop="edit"
+        @click.prevent="edit"
       >
         {{ term || 'Undefined' | fullTerm }}
       </div>

@@ -14,11 +14,11 @@
       class="flex-grow-1 mx-3"
       filled
       label="Name"
+      :error-messages="validationError"
     ></v-text-field>
     <div>
       <ColorPickerButton v-model="dictionnary.color" class="mx-2" />
     </div>
-
     <v-btn icon @click.prevent="$emit('delete', dictionnary)">
       <v-icon>mdi-close-circle</v-icon>
     </v-btn>
@@ -34,6 +34,20 @@ export default {
     dictionnary: {
       type: Object,
       required: true,
+    },
+    validation: {
+      type: Object,
+      required: false,
+      default: () => {},
+    },
+  },
+  data() {
+    return {}
+  },
+  computed: {
+    validationError() {
+      if (this.validation.id !== this.dictionnary.id) return ''
+      return this.validation.error[0] || ''
     },
   },
   watch: {

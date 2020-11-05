@@ -48,14 +48,13 @@
       <template v-slot:extension>
         <div
           style="overflow: hidden"
-          class="extension-container mx-n2"
+          class="extension-container mx-n2 flex-grow-1"
           :class="[{ open: filtersOpened }]"
         >
           <div v-if="filtersOpened">
             <div
               class="d-flex align-center"
               :style="`height:${extensionBarHeight}px;`"
-              style="overflow: hidden"
             >
               <v-btn
                 light
@@ -66,49 +65,51 @@
               >
                 <v-icon>mdi-filter</v-icon>
               </v-btn>
-              <v-slide-group
-                light
-                multiple
-                :show-arrows="!$vuetify.breakpoint.mobile"
-                class="slider-toolbar"
-              >
-                <FilterChip
-                  :outlined="false"
-                  @click="openDialog('FilterDictionnary')"
+              <div style="overflow: hidden">
+                <v-slide-group
+                  light
+                  multiple
+                  :show-arrows="!$vuetify.breakpoint.mobile"
+                  class="slider-toolbar"
                 >
-                  Dictionnaries
-                </FilterChip>
-                <FilterChip v-model="filterCrossDico" @click="setCrossDico()">
-                  CrossDico
-                </FilterChip>
-                <FilterChip
-                  :outlined="isEmpty(filterType)"
-                  @click="openDialog('FilterType')"
-                  >Type</FilterChip
-                >
-                <FilterChip
-                  :outlined="isEmpty(filterType)"
-                  @click="openDialog('FilterOrderBy')"
-                  >Order By</FilterChip
-                >
-                <FilterChip
-                  v-if="isNative"
-                  :outlined="false"
-                  @click="openDialog('FilterTranslation')"
-                >
-                  Translation
-                </FilterChip>
-                <FilterChip
-                  :outlined="false"
-                  @click="openDialog('FilterDisplay')"
-                  >Display</FilterChip
-                >
-                <FilterChip
-                  :outlined="false"
-                  @click="openDialog('FilterColumn')"
-                  >Column</FilterChip
-                >
-              </v-slide-group>
+                  <FilterChip
+                    :outlined="false"
+                    @click="openDialog('FilterDictionnary')"
+                  >
+                    Dictionnaries
+                  </FilterChip>
+                  <FilterChip v-model="filterCrossDico" @click="setCrossDico()">
+                    CrossDico
+                  </FilterChip>
+                  <FilterChip
+                    :outlined="isEmpty(filterType)"
+                    @click="openDialog('FilterType')"
+                    >Type</FilterChip
+                  >
+                  <FilterChip
+                    :outlined="isEmpty(filterType)"
+                    @click="openDialog('FilterOrderBy')"
+                    >Order By</FilterChip
+                  >
+                  <FilterChip
+                    v-if="isNative"
+                    :outlined="false"
+                    @click="openDialog('FilterTranslation')"
+                  >
+                    Translation
+                  </FilterChip>
+                  <FilterChip
+                    :outlined="false"
+                    @click="openDialog('FilterDisplay')"
+                    >Display</FilterChip
+                  >
+                  <FilterChip
+                    :outlined="false"
+                    @click="openDialog('FilterColumn')"
+                    >Column</FilterChip
+                  >
+                </v-slide-group>
+              </div>
             </div>
 
             <div

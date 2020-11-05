@@ -1,6 +1,7 @@
 <template>
   <v-dialog
     v-model="visible"
+    class="term-edit-dialog"
     scrollable
     max-width="800"
     :hide-overlay="index > 0"
@@ -73,7 +74,7 @@
 
 <script>
 import editHelper from '@/mixins/edit'
-
+import { mapGetters } from 'vuex'
 export default {
   mixins: [editHelper],
   props: {
@@ -92,6 +93,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      filterDisplay: 'filters/display',
+    }),
     dialog() {
       return this.dialogs[this.index]
     },
@@ -113,6 +117,7 @@ export default {
   },
   async mounted() {
     await this.getTerm()
+    if (this.filterDisplay.includes('dialog_preview')) this.tab = 'preview'
   },
   methods: {
     async getTerm() {

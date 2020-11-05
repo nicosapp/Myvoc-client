@@ -46,9 +46,6 @@ export default {
     selected(newValue) {
       if (newValue) this.$emit('input', newValue.slug)
     },
-    items(items) {
-      this.selected = this.items.find((i) => i.slug === this.value)
-    },
   },
   async mounted() {
     if (!this.items) {
