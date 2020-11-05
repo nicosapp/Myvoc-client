@@ -22,6 +22,10 @@ a {
 }
 .v-app-bar {
   background-color: var(--color-appbar) !important;
+  .row,
+  .col {
+    padding: 0;
+  }
 }
 .cursor-pointer {
   cursor: pointer;

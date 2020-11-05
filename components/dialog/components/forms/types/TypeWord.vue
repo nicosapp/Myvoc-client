@@ -2,8 +2,13 @@
   <div>
     <v-card class="px-4 pt-4 elevation-8 mb-4">
       <FullLang v-model="currentTerm" />
-      <Native v-model="currentTerm.fra" />
-      <Pronunciation v-model="currentTerm.pronon" />
+      <CustomTextField v-model="currentTerm.fra" name="native" label="Native" />
+      <CustomTextField
+        v-if="is('word')"
+        v-model="currentTerm.pronon"
+        name="pronunciation"
+        label="Pronunciation"
+      />
     </v-card>
 
     <v-card class="px-4 pt-4 elevation-8 mb-4">
@@ -35,63 +40,32 @@
         <Example v-model="currentTerm.ex_json" />
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
-        <Conjugation v-model="currentTerm.conj" />
-      </v-col>
-    </v-row>
+
+    <v-card v-if="is('word')" class="px-4 pt-4 elevation-8 mb-4">
+      <CustomTextArea
+        v-model="currentTerm.conj"
+        label="Conjugation"
+        name="conjugation"
+      />
+    </v-card>
   </div>
 </template>
 
 <script>
-import FullLang from '../combined/FullLang'
-import Native from '../Native'
-import LevelRatingHighlight from '../combined/LevelRatingHighlight'
-import Definition from '../Definition'
-import Example from '../Example'
-import Conjugation from '../Conjugation'
-import Pronunciation from '../Pronunciation'
-import Grammar from '../Grammar'
-import Category from '../Category'
-
+import typeTemplate from '@/mixins/edit/type'
 export default {
-  components: {
-    FullLang,
-    Native,
-    Pronunciation,
-    LevelRatingHighlight,
-    Definition,
-    Example,
-    Conjugation,
-    Grammar,
-    Category,
-  },
+  mixins: [typeTemplate],
   props: {
-    value: {
-      required: true,
-      type: Object,
-    },
-    native: {
-      required: true,
+    type: {
+      required: false,
       type: String,
+      default: 'word',
     },
-    isNative: {
-      required: true,
-      type: Boolean,
-    },
-  },
-  data() {
-    return {
-      currentTerm: this.value,
-    }
   },
 
-  watch: {
-    currentTerm: {
-      deep: true,
-      handler() {
-        this.$emit('input', this.currentTerm)
-      },
+  methods: {
+    is(type) {
+      return this.type === type
     },
   },
 }

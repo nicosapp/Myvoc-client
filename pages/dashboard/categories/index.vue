@@ -62,6 +62,7 @@ import {
   eachDeep as _eachDeep,
 } from 'deepdash-es/standalone'
 
+import { rulesTextField as rules } from '@/plugins/formValidation'
 import { flattenCategories as _flattenCategories } from './components/flattenCategoriesArray'
 import CategorySortable from './components/CategorySortable'
 
@@ -104,10 +105,15 @@ export default {
 
     edit(item) {
       this.$dialog.show({
-        component: 'DialogConfirm',
+        component: 'DialogPrompt',
         title: 'Update',
         message: 'Choose your new the designation!',
-        data: { text: item.name },
+        data: {
+          text: item.name,
+          rules: (v) => {
+            return [rules.required, rules.min(3, v)]
+          },
+        },
         okFunction: (newValue) => {
           const newItem = { ...item, ...{ name: newValue } }
           this.update('patch', 'updated', newItem)

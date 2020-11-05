@@ -1,22 +1,22 @@
 <template>
   <v-select
     v-model="selected"
-    :items="items"
+    :items="orderedItems"
     label="Langue"
     filled
     item-text="name"
     item-value="slug"
     :disabled="disabled"
-    :rules="[select.required(items, selected)]"
+    :rules="[rules.required(items, selected)]"
     return-object
   ></v-select>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import validationHelper from '@/mixins/helper/formValidationRules'
+import { rulesSelect as rules } from '@/plugins/formValidation'
+import { orderBy as _orderBy } from 'lodash'
 export default {
-  mixins: [validationHelper],
   props: {
     value: {
       required: false,
@@ -33,6 +33,7 @@ export default {
   data() {
     return {
       selected: {},
+      rules,
     }
   },
 
@@ -40,6 +41,9 @@ export default {
     ...mapGetters({
       items: 'config/dictionnaries',
     }),
+    orderedItems() {
+      return _orderBy(this.items, 'order', 'asc')
+    },
   },
 
   watch: {

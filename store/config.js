@@ -8,6 +8,8 @@ export const state = () => ({
   ratings: null,
   highlights: null,
   tags: null,
+  modes: null,
+  tenses: null,
 })
 
 export const getters = {
@@ -38,6 +40,12 @@ export const getters = {
   tags(state) {
     return state.tags
   },
+  modes(state) {
+    return state.modes
+  },
+  tenses(state) {
+    return state.tenses
+  },
 }
 
 export const mutations = {
@@ -65,6 +73,12 @@ export const mutations = {
   },
   SET_TAGS(state, value) {
     state.tags = value
+  },
+  SET_MODES(state, value) {
+    state.modes = value
+  },
+  SET_TENSES(state, value) {
+    state.tenses = value
   },
 }
 
@@ -114,7 +128,17 @@ export const actions = {
   },
 
   async getTags({ commit }) {
-    const tags = await this.$axios.$get('tags')
-    commit('SET_TAGS', tags.data)
+    const response = await this.$axios.$get('taxonomies?tax=tag')
+    commit('SET_TAGS', response.data)
+  },
+
+  async getModes({ commit }) {
+    const response = await this.$axios.$get('taxonomies?tax=mode')
+    commit('SET_MODES', response.data)
+  },
+
+  async getTenses({ commit }) {
+    const response = await this.$axios.$get('taxonomies?tax=tense')
+    commit('SET_TENSES', response.data)
   },
 }

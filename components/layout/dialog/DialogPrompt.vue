@@ -9,9 +9,9 @@
         v-model="text"
         outlined
         :label="label"
+        :rules="rules"
         clearable
-        hide-details
-        class="elevation-2 mx-3"
+        class="mx-3"
       >
       </v-text-field>
       <v-card-actions>
@@ -36,6 +36,10 @@ export default {
   computed: {
     label() {
       return this.data.label || ''
+    },
+    rules() {
+      if (!this.data.rules) return false
+      return this.data.rules(this.text)
     },
   },
   watch: {

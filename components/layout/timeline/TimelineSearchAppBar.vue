@@ -3,7 +3,7 @@
     class="d-flex primary align-center"
     style="position: absolute; right: 0; top: 0; height: 100%; width: 100%"
   >
-    <v-btn icon @click.prevent="$emit('toggle-appbar', false)">
+    <v-btn icon dark @click.prevent="$emit('toggle-appbar', false)">
       <v-icon>mdi-chevron-right</v-icon>
     </v-btn>
     <v-menu left offset-y close-on-click :max-height="200">
@@ -12,12 +12,14 @@
           v-model="search"
           solo-inverted
           flat
+          dark
           hide-details
           :loading="loading"
           class="mr-4"
           filled
           v-bind="attrs"
           label="Type your term :)"
+          dense
           v-on="on"
           @input="(v) => $emit('input', v)"
           @focus="$emit('focus', true)"

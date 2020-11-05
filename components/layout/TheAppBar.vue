@@ -1,28 +1,34 @@
 <template>
-  <v-app-bar :clipped-left="false" fixed app color="grey lighten-4">
-    <!-- MIDDLE -->
-    <v-spacer />
-    <v-img
-      class="mr-3"
-      max-height="60px"
-      max-width="200px"
-      contain
-      :src="require('~/assets/logo.svg')"
-    ></v-img>
-    <v-spacer />
-    <!-- MIDDLE -->
-    <v-btn
-      v-if="!$auth.loggedIn && isHomePage"
-      light
-      icon
-      nuxt
-      to="/auth/signin"
-    >
-      <v-icon>mdi-login-variant</v-icon>
-    </v-btn>
-    <v-btn v-if="$auth.loggedIn && isHomePage" light icon nuxt to="timeline">
-      <v-icon>mdi-format-list-text</v-icon>
-    </v-btn>
+  <v-app-bar :clipped-left="false" fixed app>
+    <v-row class="mx-n2">
+      <v-col cols="3">
+        <v-btn
+          v-if="!$auth.loggedIn && isHomePage"
+          light
+          icon
+          nuxt
+          to="/auth/signin"
+        >
+          <v-icon>mdi-login-variant</v-icon>
+        </v-btn>
+      </v-col>
+      <v-col cols="6" class="d-flex justify-space-around align-center">
+        <v-toolbar-title class="primary--text font-title">
+          MyVoc
+        </v-toolbar-title>
+      </v-col>
+      <v-col cols="3" class="d-flex justify-end">
+        <v-btn
+          v-if="$auth.loggedIn && isHomePage"
+          light
+          icon
+          nuxt
+          to="timeline"
+        >
+          <v-icon>mdi-format-list-text</v-icon>
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-app-bar>
 </template>
 

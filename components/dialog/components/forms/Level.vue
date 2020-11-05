@@ -1,7 +1,7 @@
 <template>
   <v-select
     v-model="model"
-    :items="items"
+    :items="orderedItems"
     menu-props="auto"
     label="Level"
     filled
@@ -13,6 +13,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { orderBy as _orderBy } from 'lodash'
 export default {
   props: {
     value: {
@@ -30,6 +31,9 @@ export default {
     ...mapGetters({
       items: 'config/levels',
     }),
+    orderedItems() {
+      return _orderBy(this.items, 'order', 'asc')
+    },
   },
   watch: {
     model(newValue) {

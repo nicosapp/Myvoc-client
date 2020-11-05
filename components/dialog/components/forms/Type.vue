@@ -1,13 +1,13 @@
 <template>
   <v-select
     v-model="selected"
-    :items="items"
+    :items="orderedItems"
     label="Type"
     filled
     item-value="name"
     item-text="name"
     :disabled="!items"
-    :rules="[select.required(items, selected)]"
+    :rules="[rules.required(items, selected)]"
     return-object
   >
     <template v-slot:selection="data">
@@ -23,9 +23,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import validationHelper from '@/mixins/helper/formValidationRules'
+import { rulesSelect as rules } from '@/plugins/formValidation'
+import { orderBy as _orderBy } from 'lodash'
 export default {
-  mixins: [validationHelper],
   props: {
     value: {
       required: false,
@@ -36,12 +36,16 @@ export default {
   data() {
     return {
       selected: {},
+      rules,
     }
   },
   computed: {
     ...mapGetters({
       items: 'config/types',
     }),
+    orderedItems() {
+      return _orderBy(this.items, 'order', 'asc')
+    },
   },
   watch: {
     selected(newValue) {

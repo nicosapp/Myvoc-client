@@ -4,13 +4,13 @@
 
 <script>
 import DialogDefault from '@/components/layout/dialog/DialogDefault'
-import DialogConfirm from '@/components/layout/dialog/DialogConfirm'
+import DialogPrompt from '@/components/layout/dialog/DialogPrompt'
 
 import { mapGetters } from 'vuex'
 export default {
   components: {
     DialogDefault,
-    DialogConfirm,
+    DialogPrompt,
   },
   computed: {
     ...mapGetters({

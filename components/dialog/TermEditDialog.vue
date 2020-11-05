@@ -19,7 +19,12 @@
           <DeleteTermButton :term="term" @deleted="close">
             Delete
           </DeleteTermButton>
-          <UpdateTermButton :term="term" :form="form" :valid="valid">
+          <UpdateTermButton
+            :term="term"
+            :form="form"
+            :valid="valid"
+            @edited="isEdited = true"
+          >
             Save
           </UpdateTermButton>
         </v-toolbar>
@@ -90,6 +95,7 @@ export default {
       term: null,
       dense: true,
       valid: true,
+      isEdited: false,
     }
   },
   computed: {
@@ -100,7 +106,7 @@ export default {
       return this.dialogs[this.index]
     },
     edit() {
-      return this.dialog.edit
+      return this.dialog.edit || this.isEdited
     },
     termId() {
       return this.dialog.termId

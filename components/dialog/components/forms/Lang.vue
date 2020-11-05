@@ -29,12 +29,12 @@
 </template>
 
 <script>
-import validationHelper from '@/mixins/helper/formValidationRules'
+import { rulesTextField as rules } from '@/plugins/formValidation'
 import editHelper from '@/mixins/edit'
 import { debounce as _debounce } from 'lodash'
 import queryString from 'query-string'
 export default {
-  mixins: [editHelper, validationHelper],
+  mixins: [editHelper],
   props: {
     value: {
       required: false,
@@ -65,6 +65,7 @@ export default {
       items: [],
       loading: false,
       currentTerm: this.value,
+      rules,
     }
   },
   watch: {

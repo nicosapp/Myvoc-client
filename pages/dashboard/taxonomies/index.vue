@@ -91,10 +91,9 @@
 
 <script>
 import { debounce as _debounce, orderBy as _orderBy } from 'lodash'
-import validationRules from '@/mixins/helper/formValidationRules'
+import { rulesTextField as rules } from '@/plugins/formValidation'
 
 export default {
-  mixins: [validationRules],
   middleware: ['verified'],
 
   layout: 'dashboard',
@@ -112,6 +111,7 @@ export default {
       taxonomies: [],
       taxonomy: null,
       textFieldFocused: false,
+      rules,
     }
   },
   computed: {
@@ -174,10 +174,15 @@ export default {
 
     edit(item) {
       this.$dialog.show({
-        component: 'DialogConfirm',
+        component: 'DialogPrompt',
         title: 'Update',
         message: 'Choose your new the designation!',
-        data: { text: item.name },
+        data: {
+          text: item.name,
+          rules: (v) => {
+            return [rules.required, rules.min(3, v)]
+          },
+        },
         okFunction: (newValue) => {
           const newItem = { ...item, ...{ name: newValue } }
           this.update('patch', 'updated', newItem)

@@ -41,15 +41,16 @@ export default {
     validate() {
       if (this.form) this.form.validate()
       if (this.valid) {
-        alert(this.valid)
+        this.update()
       }
     },
-    async click() {
+    async update() {
       this.loading = true
       try {
         await this.$axios.$patch(`terms/${this.term.id}`, this.term)
         this.updateTermTimeline(this.term)
         this.$notifier.success({ message: 'Term updated' })
+        this.$emit('edited', true)
       } catch (e) {
         this.$notifier.error500()
       }

@@ -3,46 +3,37 @@
     <v-app-bar
       fixed
       app
+      :clipped-left="false"
       class="timeline-app-bar"
       hide-on-scroll
       :extension-height="extensionHeight"
     >
-      <div class="d-flex align-center" style="width: 100%">
-        <!-- <v-btn icon @click.prevent="toggleDrawerLeft">
-          <v-icon>mdi-menu</v-icon>
-        </v-btn> -->
-        <v-btn light icon class="ml-n2" @click.prevent="toggleFilterBar">
-          <v-icon>mdi-tune-vertical</v-icon>
-        </v-btn>
-        <!-- MIDDLE -->
-        <v-spacer />
-        <v-img
-          class="mr-3"
-          max-height="60px"
-          max-width="200px"
-          contain
-          :src="require('~/assets/logo.svg')"
-        ></v-img>
-        <v-spacer />
-        <!-- MIDDLE -->
-        <v-btn
-          v-if="!$auth.loggedIn && isHomePage"
-          light
-          icon
-          nuxt
-          to="/auth/signin"
-        >
-          <v-icon>mdi-login-variant</v-icon>
-        </v-btn>
-        <v-btn
-          icon
-          class="mr-n2"
-          light
-          @click.prevent="$emit('toggle-appbar', true)"
-        >
-          <v-icon>mdi-magnify</v-icon>
-        </v-btn>
-      </div>
+      <v-row class="mx-n2">
+        <v-col cols="3"
+          ><v-btn light icon @click.prevent="toggleFilterBar">
+            <v-icon>mdi-tune-vertical</v-icon>
+          </v-btn>
+        </v-col>
+        <v-col cols="6" class="d-flex justify-space-around align-center">
+          <v-toolbar-title class="primary--text font-title">
+            Timeline
+          </v-toolbar-title>
+        </v-col>
+        <v-col cols="3" class="d-flex justify-end">
+          <v-btn
+            v-if="!$auth.loggedIn && isHomePage"
+            light
+            icon
+            nuxt
+            to="/auth/signin"
+          >
+            <v-icon>mdi-login-variant</v-icon>
+          </v-btn>
+          <v-btn icon light @click.prevent="$emit('toggle-appbar', true)">
+            <v-icon>mdi-magnify</v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
       <slot />
 
       <template v-slot:extension>

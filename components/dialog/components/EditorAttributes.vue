@@ -5,10 +5,11 @@
       <div class="d-flex">
         <Language
           v-model="currentTerm.langue"
-          class="flex-grow-1 mr-2"
+          style="width: 50%"
+          class="mr-2"
           :disabled="edit"
         />
-        <Type v-model="currentTerm.forme" class="flex-grow-1 ml-2" />
+        <Type v-model="currentTerm.forme" style="width: 50%" class="ml-2" />
       </div>
     </v-card>
     <component
