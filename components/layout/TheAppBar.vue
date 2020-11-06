@@ -1,7 +1,13 @@
 <template>
   <v-app-bar :clipped-left="false" fixed app>
     <v-row class="mx-n2">
-      <v-col cols="3">
+      <v-col cols="3"> </v-col>
+      <v-col cols="6" class="d-flex justify-space-around align-center">
+        <v-toolbar-title class="primary--text font-title">
+          MyVoc
+        </v-toolbar-title>
+      </v-col>
+      <v-col cols="3" class="d-flex justify-end">
         <v-btn
           v-if="!$auth.loggedIn && isHomePage"
           light
@@ -11,13 +17,6 @@
         >
           <v-icon>mdi-login-variant</v-icon>
         </v-btn>
-      </v-col>
-      <v-col cols="6" class="d-flex justify-space-around align-center">
-        <v-toolbar-title class="primary--text font-title">
-          MyVoc
-        </v-toolbar-title>
-      </v-col>
-      <v-col cols="3" class="d-flex justify-end">
         <v-btn
           v-if="$auth.loggedIn && isHomePage"
           light
@@ -25,7 +24,7 @@
           nuxt
           to="timeline"
         >
-          <v-icon>mdi-format-list-text</v-icon>
+          <v-icon>mdi-arrow-right</v-icon>
         </v-btn>
       </v-col>
     </v-row>

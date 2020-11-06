@@ -40,7 +40,6 @@
               name="name"
               :rules="[rules.required, rules.min(2, search)]"
               :loading="loading"
-              :disabled="loading"
               :error-messages="validation.name"
               @input="validation = {}"
               @focus="textFieldFocused = true"

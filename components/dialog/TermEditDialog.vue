@@ -59,7 +59,11 @@
               />
             </v-tab-item>
             <v-tab-item value="preview">
-              <EditorPreview :term="term" />
+              <EditorPreview
+                :term="term"
+                :native="native"
+                :is-native="isNative"
+              />
             </v-tab-item>
           </v-tabs-items>
         </v-tabs>

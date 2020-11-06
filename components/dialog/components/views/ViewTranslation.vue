@@ -84,7 +84,7 @@ export default {
 
   methods: {
     open(item) {
-      this.pushDialog({ id: item.id, edit: true })
+      this.pushDialog({ termId: item.id, edit: true })
     },
     getColor(slug) {
       if (this._dictionnaries) {

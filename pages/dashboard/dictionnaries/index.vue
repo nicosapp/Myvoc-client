@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import validationRules from '@/mixins/helper/formValidationRules'
+import { rulesTextField as rules } from '@/plugins/formValidation'
 import { orderBy as _orderBy } from 'lodash'
 
 import DictionnaryItem from './DictionnaryItem'
@@ -67,7 +67,6 @@ export default {
   components: {
     DictionnaryItem,
   },
-  mixins: [validationRules],
   middleware: ['verified'],
   layout: 'dashboard',
   data() {
@@ -82,6 +81,7 @@ export default {
         color: '#ffffff',
       },
       validation: {},
+      rules,
     }
   },
   computed: {

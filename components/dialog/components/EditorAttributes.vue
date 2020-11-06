@@ -25,6 +25,7 @@
 <script>
 import { get as _get } from 'lodash'
 
+import typeTemplate from '@/mixins/edit/typeEdit'
 import Language from './forms/Language'
 import Type from './forms/Type'
 
@@ -51,43 +52,20 @@ export default {
     TypeNote,
     TypeExample,
   },
+  mixins: [typeTemplate],
   props: {
-    value: {
-      required: true,
-      type: Object,
-    },
     edit: {
       required: false,
       type: Boolean,
       default: true,
     },
-    native: {
-      required: true,
-      type: String,
-    },
-    isNative: {
-      required: true,
-      type: Boolean,
-    },
   },
-  data() {
-    return {
-      currentTerm: this.value,
-    }
-  },
+
   computed: {
     typeLowerCase() {
       return _get(this, 'currentTerm.forme', false)
         ? this.currentTerm.forme.toLowerCase()
         : null
-    },
-  },
-  watch: {
-    currentTerm: {
-      deep: true,
-      handler(newValue) {
-        this.$emit('input', newValue)
-      },
     },
   },
 }

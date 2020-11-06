@@ -7,7 +7,7 @@ a {
 }
 
 .font-title {
-  font-family: 'Permanent Marker', cursive;
+  font-family: 'Permanent Marker', cursive !important;
 }
 
 .v-text-field--filled .v-input__slot {
@@ -22,6 +22,9 @@ a {
 }
 .v-app-bar {
   background-color: var(--color-appbar) !important;
+  .v-toolbar__title {
+    font-size: 2rem;
+  }
   .row,
   .col {
     padding: 0;

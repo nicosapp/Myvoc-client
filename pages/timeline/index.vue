@@ -6,7 +6,8 @@
         Sorry, we did not find any terms for this request
       </template>
     </div>
-    <div :style="`column-count: ${filterColumn}`" style="column-gap: 0">
+    <LoadingCircular v-if="!terms" height="100vh" />
+    <div v-else :style="`column-count: ${filterColumn}`" style="column-gap: 0">
       <!-- Short or Long       -->
       <component
         :is="`${term.term}-term-list-item`"

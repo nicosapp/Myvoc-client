@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import typeTemplate from '@/mixins/edit/type'
+import typeTemplate from '@/mixins/edit/typeEdit'
 export default {
   mixins: [typeTemplate],
   props: {

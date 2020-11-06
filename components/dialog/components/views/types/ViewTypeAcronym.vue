@@ -5,7 +5,8 @@
 </template>
 
 <script>
+import typeTemplate from '@/mixins/edit/typeView'
 export default {
-  components: {},
+  mixins: [typeTemplate],
 }
 </script>

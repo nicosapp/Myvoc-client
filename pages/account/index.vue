@@ -207,6 +207,7 @@ export default {
   },
   layout: 'account',
   mixins: [validationRules],
+  middleware: ['isAuth'],
   data() {
     return {
       validUserPassword: true,
@@ -294,7 +295,7 @@ export default {
       }
     },
   },
-  middleware: ['isAuth'],
+
   head() {
     return {
       title: 'Account',

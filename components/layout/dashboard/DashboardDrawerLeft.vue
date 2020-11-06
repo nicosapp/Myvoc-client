@@ -1,7 +1,6 @@
 <template>
   <v-navigation-drawer v-model="drawerLeftOpen" temporary fixed>
     <v-list dense nav>
-      {{ selectedMenu }}
       <v-list-item-group v-model="selectedMenu">
         <template v-for="(item, i) in items">
           <v-subheader v-if="item.header" :key="i">{{

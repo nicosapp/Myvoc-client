@@ -1,6 +1,11 @@
 <template>
   <v-container>
-    <component :is="`view-type-${typeLowerCase}`" :term="term" />
+    <component
+      :is="`view-type-${typeLowerCase}`"
+      :term="term"
+      :native="native"
+      :is-native="isNative"
+    />
   </v-container>
 </template>
 
@@ -29,6 +34,14 @@ export default {
     term: {
       required: true,
       type: Object,
+    },
+    native: {
+      required: true,
+      type: String,
+    },
+    isNative: {
+      required: true,
+      type: Boolean,
     },
   },
   computed: {

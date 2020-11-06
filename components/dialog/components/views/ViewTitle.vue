@@ -1,15 +1,15 @@
 <template>
-  <div class="primary--text text-h5 font-weight-bold">
-    {{ term | fullTerm }}
+  <div class="text-h5 font-weight-bold">
+    {{ title }}
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    term: {
+    title: {
       required: true,
-      type: Object,
+      type: String,
     },
   },
 }

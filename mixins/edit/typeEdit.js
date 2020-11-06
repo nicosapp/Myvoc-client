@@ -23,8 +23,8 @@ export default {
   watch: {
     currentTerm: {
       deep: true,
-      handler() {
-        this.$emit('input', this.currentTerm)
+      handler(newValue) {
+        this.$emit('input', newValue)
       },
     },
   },

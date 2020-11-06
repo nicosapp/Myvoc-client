@@ -25,7 +25,7 @@ export default {
   },
   computed: {
     isNotVerified() {
-      return !this.$auth.user.is_verified
+      return this.$auth.loggedIn && !this.$auth.user.is_verified
     },
   },
   methods: {

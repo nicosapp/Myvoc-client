@@ -1,5 +1,10 @@
 <template>
-  <v-dialog v-model="filterVisible" :width="width" scrollable>
+  <v-dialog
+    v-model="filterVisible"
+    :width="width"
+    scrollable
+    :fullscreen="$vuetify.breakpoint.mobile"
+  >
     <v-card>
       <v-card-title class="pa-0">
         <v-toolbar dark dense color="primary">

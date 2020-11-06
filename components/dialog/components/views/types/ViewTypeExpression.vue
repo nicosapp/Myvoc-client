@@ -1,9 +1,15 @@
 <template>
-  <div>Expression</div>
+  <ViewTypeWord
+    :native="native"
+    :is-native="isNative"
+    :term="term"
+    type="locution"
+  />
 </template>
 
 <script>
+import typeTemplate from '@/mixins/edit/typeView'
 export default {
-  components: {},
+  mixins: [typeTemplate],
 }
 </script>

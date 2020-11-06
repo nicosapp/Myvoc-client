@@ -31,24 +31,11 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import typeTemplate from '@/mixins/edit/typeEdit'
 export default {
-  props: {
-    value: {
-      required: true,
-      type: Object,
-    },
-    native: {
-      required: true,
-      type: String,
-    },
-    isNative: {
-      required: true,
-      type: Boolean,
-    },
-  },
+  mixins: [typeTemplate],
   data() {
     return {
-      currentTerm: this.value,
       switchs: [],
     }
   },
@@ -59,14 +46,6 @@ export default {
 
     languages() {
       return this.dictionnaries.filter((d) => d.slug !== this.native)
-    },
-  },
-  watch: {
-    currentTerm: {
-      deep: true,
-      handler(newValue) {
-        this.$emit('input', newValue)
-      },
     },
   },
 }

@@ -113,16 +113,18 @@ export const actions = {
     if (state.currentPage <= state.lastPage) {
       query.page = state.currentPage
     }
-    const response = await this.$axios.$get(
-      `terms/filter/?${queryString.stringify(query)}`
-    )
+    try {
+      const response = await this.$axios.$get(
+        `terms/filter/?${queryString.stringify(query)}`
+      )
 
-    dispatch('setTimeline', {
-      terms: response.data,
-      currentPage: response.meta.current_page,
-      lastPage: response.meta.last_page,
-      total: response.meta.total,
-    })
+      dispatch('setTimeline', {
+        terms: response.data,
+        currentPage: response.meta.current_page,
+        lastPage: response.meta.last_page,
+        total: response.meta.total,
+      })
+    } catch (e) {}
     commit('SET_LOADING', false)
   },
 }

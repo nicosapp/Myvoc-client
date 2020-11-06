@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import typeTemplate from '@/mixins/edit/type'
+import typeTemplate from '@/mixins/edit/typeEdit'
 
 import { rulesTextField as rules } from '@/plugins/formValidation'
 
