@@ -1,32 +1,27 @@
 <template>
   <DialogFilter title="Level">
     <template v-slot:default>
-      <LoadingCircular v-if="!items" height="200px" />
-      <v-list v-else nav dense>
-        <v-list-item-group
+      <div class="pa-3">
+        <LoadingCircular v-if="!items" height="200px" />
+        <v-chip-group
+          v-else
           v-model="model"
-          color="primary"
+          active-class="primary--text"
+          column
           multiple
-          active-class=""
         >
-          <v-list-item
-            v-for="(item, index) in items"
-            :key="index"
+          <v-chip
+            v-for="item in items"
+            :key="item.id"
             ripple
-            :value="item.name"
+            :value="item.id"
+            class="text-capitalize"
           >
-            <template v-slot:default="{ active }">
-              <v-list-item-action>
-                <v-checkbox :input-value="active"></v-checkbox>
-              </v-list-item-action>
-
-              <v-list-item-content>
-                {{ item.name | capitalize }}
-              </v-list-item-content>
-            </template>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
+            <span>{{ item.name }}</span>
+            <span class="font-weight-light">({{ item.terms_count }})</span>
+          </v-chip>
+        </v-chip-group>
+      </div>
     </template>
 
     <template v-slot:actions>

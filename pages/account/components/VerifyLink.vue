@@ -1,18 +1,21 @@
 <template>
-  <v-overlay
-    style="position: fixed; top: 0; left: 0; right: 0"
-    :value="isNotVerified"
+  <v-alert
+    border="left"
+    color="primary"
+    prominent
+    dark
+    icon="mdi-account-reactivate"
   >
-    <v-card>
+    <v-card flat color="primary">
       <v-card-title>Email verification</v-card-title>
       <v-card-subtitle
         >Please check your mail box to activate your account</v-card-subtitle
       >
       <v-card-actions>
-        <v-btn text @click.prevent="send"> send a new email </v-btn>
+        <v-btn text @click.prevent="send"> send a new activation link </v-btn>
       </v-card-actions>
     </v-card>
-  </v-overlay>
+  </v-alert>
 </template>
 
 <script>

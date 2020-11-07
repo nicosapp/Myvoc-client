@@ -6,7 +6,7 @@
         Sorry, we did not find any terms for this request
       </template>
     </div>
-    <LoadingCircular v-if="!terms" height="100vh" />
+    <LoadingCircular v-if="loading" height="300px" />
     <div v-else :style="`column-count: ${filterColumn}`" style="column-gap: 0">
       <!-- Short or Long       -->
       <component
